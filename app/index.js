@@ -28,9 +28,8 @@ class App extends React.Component {
       <div>
         <HelloWord color={"blue"} names={this.state.names} />
         <Cards
-          number={1}
           cards={this.state.cards}
-          onClick={id => this.setToggle(id)}
+          getIdOnClick={id => this.setToggle(id)}
         />
       </div>
     );

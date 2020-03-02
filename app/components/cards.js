@@ -1,11 +1,11 @@
 import React from "react";
 
-export function Cards({ number, cards, onClick }) {
+export function Cards({ cards, getIdOnClick }) {
   const makeButtons = card => {
-    console.log(card);
     return (
       <button
-        onClick={() => onClick(card.id)}
+        disabled={card.disabled}
+        onClick={() => getIdOnClick(card.id)}
         key={card.id}
         style={{ backgroundColor: card.color }}
       >
