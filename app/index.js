@@ -28,14 +28,15 @@ class App extends React.Component {
         disabledCards.push(this.state.cards[i]);
         if (disabledCards.length === 2){
           disabledCards.map(x => {
-
-
+            if(disabledCards[0].color === disabledCards[1].color){
+              this.state.cards[x.id].find = !this.state.cards[x.id].find;
+              this.setState({ cards: this.state.cards });
+            }
             this.state.cards[x.id].disable = !this.state.cards[x.id].disable;
             this.setState({ cards: this.state.cards });
           }) 
-          
         }
-        console.log ("disabled Cards", disabledCards);
+        console.log ("disabled Cards", disabledCards, "disabledCards[0].color", disabledCards[0].color);
       }
     }
   }
