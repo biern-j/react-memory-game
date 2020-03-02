@@ -9,10 +9,10 @@ class App extends React.Component {
     this.state = {
       names: ["Jola", "Ania"],
       cards: [
-        { id: 0, color: "red", disable: false },
-        { id: 1, color: "red", disable: false },
-        { id: 2, color: "blue", disable: false },
-        { id: 3, color: "blue", disable: false }
+        { id: 0, color: "red", disable: false, find: false },
+        { id: 1, color: "red", disable: false, find: false },
+        { id: 2, color: "blue", disable: false, find: false },
+        { id: 3, color: "blue", disable: false, find: false }
       ]
     };
   }
@@ -20,6 +20,24 @@ class App extends React.Component {
   setToggle(id) {
     this.state.cards[id].disable = !this.state.cards[id].disable;
     this.setState({ cards: this.state.cards });
+
+    let disabledCards =[]
+
+    for (let i=0; i < this.state.cards.length; i++) {
+      if (this.state.cards[i].disable === true){
+        disabledCards.push(this.state.cards[i]);
+        if (disabledCards.length === 2){
+          disabledCards.map(x => {
+
+
+            this.state.cards[x.id].disable = !this.state.cards[x.id].disable;
+            this.setState({ cards: this.state.cards });
+          }) 
+          
+        }
+        console.log ("disabled Cards", disabledCards);
+      }
+    }
   }
 
   render() {
