@@ -21,22 +21,37 @@ class App extends React.Component {
     this.state.cards[id].disable = !this.state.cards[id].disable;
     this.setState({ cards: this.state.cards });
 
-    let disabledCards =[]
+    let disabledCards = [];
 
-    for (let i=0; i < this.state.cards.length; i++) {
-      if (this.state.cards[i].disable === true){
+    for (let i = 0; i < this.state.cards.length; i++) {
+      if (this.state.cards[i].disable === true) {
         disabledCards.push(this.state.cards[i]);
-        if (disabledCards.length === 2){
+        if (disabledCards.length === 2) {
           disabledCards.map(x => {
-            if(disabledCards[0].color === disabledCards[1].color){
+            if (disabledCards[0].color === disabledCards[1].color) {
               this.state.cards[x.id].find = !this.state.cards[x.id].find;
-              this.setState({ cards: this.state.cards });
+              this.setState({
+                cards: this.state.cards.map(card =>
+                  disabledCards.map(disbledCard => {
+                    if (card.id === disbledCard.id) {
+                      console.log("find", card.find);
+                      return { ...card, find: !card.find };
+                    }
+                    return card;
+                  })
+                )
+              });
             }
             this.state.cards[x.id].disable = !this.state.cards[x.id].disable;
             this.setState({ cards: this.state.cards });
-          }) 
+          });
         }
-        console.log ("disabled Cards", disabledCards, "disabledCards[0].color", disabledCards[0].color);
+        console.log(
+          "disabled Cards",
+          disabledCards,
+          "disabledCards[0].color",
+          disabledCards[0].color
+        );
       }
     }
   }
