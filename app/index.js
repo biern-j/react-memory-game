@@ -18,40 +18,48 @@ class App extends React.Component {
   }
 
   setToggle(id) {
-    this.state.cards[id].disable = !this.state.cards[id].disable;
-    this.setState({ cards: this.state.cards });
+    // this.state.cards[id].disable = !this.state.cards[id].disable;
+    // this.setState({ cards: this.state.cards });
 
-    let disabledCards = [];
+    let toggledCards = [];
 
     for (let i = 0; i < this.state.cards.length; i++) {
-      if (this.state.cards[i].disable === true) {
-        disabledCards.push(this.state.cards[i]);
-        if (disabledCards.length === 2) {
-          disabledCards.map(x => {
-            if (disabledCards[0].color === disabledCards[1].color) {
-              this.state.cards[x.id].find = !this.state.cards[x.id].find;
-              this.setState({
-                cards: this.state.cards.map(card =>
-                  disabledCards.map(disbledCard => {
-                    if (card.id === disbledCard.id) {
-                      console.log("find", card.find);
-                      return { ...card, find: !card.find };
-                    }
-                    return card;
-                  })
-                )
-              });
-            }
-            this.state.cards[x.id].disable = !this.state.cards[x.id].disable;
-            this.setState({ cards: this.state.cards });
+      if (this.state.cards[i].id === id) {
+        toggledCards.push(this.state.cards[i]);
+        if (toggledCards.length === 2) {
+          this.setState({
+            cards: this.state.cards.map(card =>
+              toggledCards.map(toggledCard => {
+                if (
+                  card.id === toggledCard.id &&
+                  toggledCards[0].color === toggledCards[1].color
+                ) {
+                  console.log("find", card.find);
+                  return { ...card, find: !card.find };
+                }
+                return card;
+              })
+            )
           });
+          // toggledCards.map(x => {
+          //   if (toggledCards[0].color === toggledCards[1].color) {
+          //     // this.state.cards[x.id].find = !this.state.cards[x.id].find;
+          //     this.setState({
+          //       cards: this.state.cards.map(card =>
+          //         toggledCards.map(toggledCard => {
+          //           if (card.id === toggledCard.id && toggledCards[0].color === toggledCards[1].color) {
+          //             console.log("find", card.find);
+          //             return { ...card, find: !card.find };
+          //           }
+          //           return card;
+          //         })
+          //       )
+          //     });
+          //   }
+          //   // this.state.cards[x.id].disable = !this.state.cards[x.id].disable;
+          //   // this.setState({ cards: this.state.cards });
+          // });
         }
-        console.log(
-          "disabled Cards",
-          disabledCards,
-          "disabledCards[0].color",
-          disabledCards[0].color
-        );
       }
     }
   }

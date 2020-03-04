@@ -5,7 +5,7 @@ export function Cards({ cards, getIdOnClick }) {
     console.log("card.disabled", card.disable);
     return (
       <button
-        disabled={card.disable}
+        disabled={card.find}
         onClick={() => getIdOnClick(card.id)}
         key={card.id}
         style={{ backgroundColor: card.disable ? card.color : "gray" }}
