@@ -1,10 +1,14 @@
-import React from "react";
+import * as React from "react";
 import { Button } from "./style";
 
-export function Cards({ cards, onClick }) {
-  const makeButtons = card => {
-    const backgroundColor = card;
-    console.log("card", card, "backgroundColor", backgroundColor);
+interface CardsProps {
+  cards: Card[];
+  onClick: any;
+}
+type Card = { id: number; color: string; clicked: boolean; found: boolean };
+
+export function Cards({ cards, onClick }: CardsProps) {
+  const makeButtons = (card: Card) => {
     return (
       <Button
         backgroundColorCard={card}
