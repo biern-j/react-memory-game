@@ -1,21 +1,20 @@
 import React from "react";
 
-export function Cards({ cards, getIdOnClick }) {
+export function Cards({ cards, onClick }) {
   const makeButtons = card => {
-    console.log("card.disabled", card.disable);
     return (
       <button
-        disabled={card.find}
-        onClick={() => getIdOnClick(card.id)}
+        disabled={card.found ? true : card.clicked}
+        onClick={() => onClick(card.id)}
         key={card.id}
-        style={{ backgroundColor: card.disable ? card.color : "gray" }}
+        style={{
+          backgroundColor: card.clicked || card.found ? card.color : "gray"
+        }}
       >
         {card.id}
         {card.color}
       </button>
     );
   };
-  const map1 = cards.map(item => makeButtons(item));
-
-  return map1;
+  return cards.map(item => makeButtons(item));
 }
