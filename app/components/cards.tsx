@@ -1,11 +1,15 @@
 import * as React from "react";
 import { Button } from "./style";
-
 interface CardsProps {
   cards: Card[];
   onClick: any;
 }
-type Card = { id: number; color: string; clicked: boolean; found: boolean };
+export type Card = {
+  id: number;
+  color: string;
+  clicked: boolean;
+  found: boolean;
+};
 
 export function Cards({ cards, onClick }: CardsProps) {
   const makeButtons = (card: Card) => {
