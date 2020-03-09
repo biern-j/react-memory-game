@@ -1,42 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 
-type State = {
-  value: string;
+import { PlayerName } from "./hello-word";
+
+type GameFormProps = {
+  onSubmit: (value: PlayerName) => void;
 };
 
-type Props = {
-  onSubmit: (value: string) => void;
+export const GameForm = ({ onSubmit }: GameFormProps) => {
+  const [value, onChange] = useState({ name: "", surname: "" });
+
+  return (
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+        onSubmit(value);
+        console.log("e", e);
+      }}
+    >
+      <label>
+        Name:
+        <input
+          value={value.name}
+          type="text"
+          name="name"
+          onChange={e => onChange({ ...value, name: e.target.value })}
+        />
+      </label>
+      <label>
+        Surname:
+        <input
+          value={value.surname}
+          type="text"
+          name="surname"
+          onChange={e => onChange({ ...value, surname: e.target.value })}
+        />
+      </label>
+
+      <input type="submit" value="Submit" />
+    </form>
+  );
 };
-
-export class GameForm extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { value: "name" };
-  }
-  onChange(value: string) {
-    this.setState({ value });
-  }
-  render() {
-    return (
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          this.props.onSubmit(`submit ${this.state.value}`);
-          console.log("e", e);
-        }}
-      >
-        <label>
-          Name:
-          <input
-            value={this.state.value}
-            type="text"
-            name="name"
-            onChange={e => this.onChange(e.target.value)}
-          />
-        </label>
-
-        <input type="submit" value="Submit" />
-      </form>
-    );
-  }
-}

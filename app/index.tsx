@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HelloWord } from "./components/hello-word";
+import { HelloWord, PlayerName } from "./components/hello-word";
 import { Cards, Card } from "./components/cards";
 import { sumMatrix } from "./helloTS";
 import { GameForm } from "./components/gameForm";
@@ -8,7 +8,7 @@ import { GameForm } from "./components/gameForm";
 type State = {
   names: string[];
   cards: Card[];
-  submitedValue: string | null;
+  playerName?: PlayerName;
 };
 
 class App extends React.Component<{}, State> {
@@ -21,12 +21,11 @@ class App extends React.Component<{}, State> {
         { id: 1, color: "red", clicked: false, found: false },
         { id: 2, color: "blue", clicked: false, found: false },
         { id: 3, color: "blue", clicked: false, found: false }
-      ],
-      submitedValue: null
+      ]
     };
   }
-  onInputSubmit(value: string) {
-    this.setState({ submitedValue: value });
+  onInputSubmit(value: PlayerName) {
+    this.setState({ playerName: value });
   }
   scheduleHideCard() {
     setTimeout(
@@ -89,20 +88,14 @@ class App extends React.Component<{}, State> {
     console.log("test", sumMatrix(matrix));
     return (
       <div>
-<<<<<<< HEAD
-        <HelloWord primary names={this.state.names} />
-        <Cards cards={this.state.cards} onClick={id => this.setToggle(id)} />
-=======
-        <GameForm onSubmit={(value: string) => this.onInputSubmit(value)} />
         <HelloWord
-          nameFromInput={this.state.submitedValue || null}
+          playerName={this.state.playerName}
           names={this.state.names}
         />
         <Cards
           cards={this.state.cards}
           onClick={(id: number) => this.setToggle(id)}
         />
->>>>>>> Set game form
       </div>
     );
   }

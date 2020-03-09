@@ -1,17 +1,22 @@
 import React from "react";
 
-interface NamesProps {
-  nameFromInput: string | null;
+type NamesProps = {
+  playerName?: PlayerName;
   names: Name[];
-}
+};
+export type PlayerName = { name: string; surname: string };
+
 type Name = string;
 
-export function HelloWord({ nameFromInput, names }: NamesProps) {
+export function HelloWord({ playerName, names }: NamesProps) {
   return (
     <div>
       <div>Hello {names[0]}</div>
       <div>Hello {names[1]}</div>
-      <div>Hello {nameFromInput}</div>
+      <div>
+        Hello:{" "}
+        {playerName !== undefined && `${playerName.name}-${playerName.surname}`}
+      </div>
     </div>
   );
 }
