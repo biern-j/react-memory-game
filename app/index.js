@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { HelloWord } from "./components/hello-word";
 import { Cards } from "./components/cards";
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -71,7 +70,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <HelloWord names={this.state.names} />
+        <HelloWord primary names={this.state.names} />
         <Cards cards={this.state.cards} onClick={id => this.setToggle(id)} />
       </div>
     );
