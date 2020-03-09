@@ -1,10 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HelloWord } from "./components/hello-word";
-import { Cards } from "./components/cards";
+import { HelloWord, PlayerName } from "./components/hello-word";
+import { Cards, Card } from "./components/cards";
+import { sumMatrix } from "./helloTS";
+import { GameForm } from "./components/gameForm";
 
-class App extends React.Component {
-  constructor(props) {
+type State = {
+  names: string[];
+  cards: Card[];
+  playerName?: PlayerName;
+};
+
+class App extends React.Component<{}, State> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       names: ["Jola", "Ania"],
@@ -16,6 +24,9 @@ class App extends React.Component {
       ]
     };
   }
+  onInputSubmit(value: PlayerName) {
+    this.setState({ playerName: value });
+  }
   scheduleHideCard() {
     setTimeout(
       () =>
@@ -26,20 +37,20 @@ class App extends React.Component {
     );
   }
 
-  undisableClickedCard(state) {
+  undisableClickedCard(state: Pick<State, "cards">) {
     return state.cards.map(card => ({
       ...card,
       clicked: false
     }));
   }
 
-  setToggle(id) {
-    const toggleClickedCard = state =>
+  setToggle(id: number) {
+    const toggleClickedCard = (state: State) =>
       state.cards.map(card =>
         card.id === id ? { ...card, clicked: !card.clicked } : card
       );
-    const setFoundCard = (cards, disabledCards) =>
-      cards.map(card =>
+    const setFoundCard = (cards: Card[], disabledCards: Card[]) =>
+      cards.map((card: Card) =>
         card.id === disabledCards[0].id || card.id === disabledCards[1].id
           ? { ...card, clicked: card.clicked, found: true }
           : card
@@ -68,10 +79,23 @@ class App extends React.Component {
   }
 
   render() {
+    const matrix = [
+      [1, 2, 3, 4],
+      [1, 2, 3, 4],
+      [1, 2, 3, 4],
+      [1, 2, 3, 4]
+    ];
+    console.log("test", sumMatrix(matrix));
     return (
       <div>
-        <HelloWord primary names={this.state.names} />
-        <Cards cards={this.state.cards} onClick={id => this.setToggle(id)} />
+        <HelloWord
+          playerName={this.state.playerName}
+          names={this.state.names}
+        />
+        <Cards
+          cards={this.state.cards}
+          onClick={(id: number) => this.setToggle(id)}
+        />
       </div>
     );
   }
