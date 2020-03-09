@@ -1,9 +1,22 @@
 import React from "react";
+// import { Button } from "./components/button";
+
+import styled from "styled-components";
+
+//export //
+const Button = styled.button`
+border: 2px solid black;
+margin: 4px;
+padding: 10px;
+`
+
+
+
 
 export function Cards({ cards, onClick }) {
   const makeButtons = card => {
     return (
-      <button
+      <Button
         disabled={card.found ? true : card.clicked}
         onClick={() => onClick(card.id)}
         key={card.id}
@@ -13,7 +26,7 @@ export function Cards({ cards, onClick }) {
       >
         {card.id}
         {card.color}
-      </button>
+      </Button>
     );
   };
   return cards.map(item => makeButtons(item));
