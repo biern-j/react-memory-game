@@ -1,21 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HelloWord, PlayerName } from "./components/hello-word";
+import { PlayerWelcome, Player } from "./components/playerWelcome";
 import { Cards, Card } from "./components/cards";
 import { sumMatrix } from "./helloTS";
 import { GameForm } from "./components/gameForm";
 
 type State = {
-  names: string[];
   cards: Card[];
-  playerName?: PlayerName;
+  players?: Player[];
 };
 
 class App extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      names: ["Jola", "Ania"],
       cards: [
         { id: 0, color: "red", clicked: false, found: false },
         { id: 1, color: "red", clicked: false, found: false },
@@ -24,8 +22,13 @@ class App extends React.Component<{}, State> {
       ]
     };
   }
-  onInputSubmit(value: PlayerName) {
-    this.setState({ playerName: value });
+  onInputSubmit(value: Player) {
+    this.setState({
+      players:
+        this.state.players === undefined
+          ? [value]
+          : [...this.state.players, value]
+    });
   }
   scheduleHideCard() {
     setTimeout(
@@ -88,11 +91,8 @@ class App extends React.Component<{}, State> {
     console.log("test", sumMatrix(matrix));
     return (
       <div>
-        <GameForm onSubmit={(value: PlayerName) => this.onInputSubmit(value)} />
-        <HelloWord
-          playerName={this.state.playerName}
-          names={this.state.names}
-        />
+        <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
+        <PlayerWelcome players={this.state.players} />
         <Cards
           cards={this.state.cards}
           onClick={(id: number) => this.setToggle(id)}

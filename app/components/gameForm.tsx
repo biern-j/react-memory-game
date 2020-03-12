@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import { PlayerName } from "./hello-word";
+import { Player } from "./playerWelcome";
 
 type GameFormProps = {
-  onSubmit: (value: PlayerName) => void;
+  onSubmit: (value: Player) => void;
 };
 
 export const GameForm = ({ onSubmit }: GameFormProps) => {
