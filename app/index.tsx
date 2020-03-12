@@ -88,6 +88,7 @@ class App extends React.Component<{}, State> {
     console.log("test", sumMatrix(matrix));
     return (
       <div>
+        <GameForm onSubmit={(value: PlayerName) => this.onInputSubmit(value)} />
         <HelloWord
           playerName={this.state.playerName}
           names={this.state.names}
