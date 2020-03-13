@@ -5,7 +5,7 @@ interface CardsProps {
   onClick: any;
 }
 export type Card = {
-  id: number;
+  id?: number;
   color: string;
   clicked: boolean;
   found: boolean;

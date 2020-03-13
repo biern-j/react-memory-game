@@ -9,14 +9,6 @@ type State = {
   cards: Card[];
   players?: Player[];
 };
-type singleCards = singleCard[];
-type singleCard = {
-  id?: number;
-  color: string;
-  clicked: boolean;
-  found: boolean;
-};
-
 const singleColorCards = [
   { color: "red", clicked: false, found: false },
   { color: "green", clicked: false, found: false },
@@ -24,25 +16,19 @@ const singleColorCards = [
   { color: "yelow", clicked: false, found: false }
 ];
 
-const getDubleCards = (
-  singleColorCards: singleCards,
-  playersAmount: number
-) => {
+const getDubleCards = (singleColorCards: Card[], playersAmount: number) => {
+  console.log("playersAmount", playersAmount);
   const matchedCardByPlayersAmount = singleColorCards.slice(0, playersAmount);
-  const cardsIndex: number[] = Array(matchedCardByPlayersAmount.length * 2);
-  const setDubleCards = (acc: singleCards, curr: singleCard) => {
+  const setDubleCards = (acc: Card[], curr: Card): Card[] => {
     const dubleCard = {
+      id: acc.length + 1,
       color: curr.color,
       clicked: curr.clicked,
       found: curr.found
     };
-    return acc.concat(...[curr, dubleCard]);
+    return acc.concat(...[{ id: acc.length, ...curr }, dubleCard]);
   };
-  const dubleCards = matchedCardByPlayersAmount.reduce(setDubleCards, []);
-  console.log("cardsIndex", cardsIndex, "dubleCards", dubleCards);
-  return cardsIndex.map(cardIndex =>
-    dubleCards.map(card => ({ id: cardIndex, ...card }))
-  );
+  return matchedCardByPlayersAmount.reduce(setDubleCards, []);
 };
 
 class App extends React.Component<{}, State> {
@@ -59,7 +45,12 @@ class App extends React.Component<{}, State> {
   }
   onInputSubmit(value: Player) {
     this.setState((state, props) => ({
-      players: state.players === undefined ? [value] : [...state.players, value]
+      players:
+        state.players === undefined ? [value] : [...state.players, value],
+      cards:
+        state.players === undefined
+          ? getDubleCards(singleColorCards, 1)
+          : getDubleCards(singleColorCards, [...state.players, value].length)
     }));
   }
   scheduleHideCard() {
@@ -120,7 +111,13 @@ class App extends React.Component<{}, State> {
       [1, 2, 3, 4],
       [1, 2, 3, 4]
     ];
-    console.log("test", sumMatrix(matrix));
+    console.log(
+      "render player length",
+      this.state.players === undefined
+        ? "wait for first player"
+        : this.state.players.length
+    );
+
     return (
       <div>
         <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
