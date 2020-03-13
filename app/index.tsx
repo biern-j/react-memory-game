@@ -3,31 +3,43 @@ import ReactDOM from "react-dom";
 import { PlayerWelcome, Player } from "./components/playerWelcome";
 import { Cards, Card } from "./components/cards";
 import { sumMatrix } from "./helloTS";
+import { GameStateManager, GameState } from "./components/gameStateManager";
 import { GameForm } from "./components/gameForm";
 
 type State = {
   cards: Card[];
-  players?: Player[];
+  players: Player[];
+  gameState: GameState;
 };
 const singleColorCards = [
-  { color: "red", clicked: false, found: false },
-  { color: "green", clicked: false, found: false },
-  { color: "blue", clicked: false, found: false },
-  { color: "yelow", clicked: false, found: false }
+  { color: "red" },
+  { color: "green" },
+  { color: "blue" },
+  { color: "yelow" }
 ];
+type CardsColors = ColorCard[];
+type ColorCard = { color: string };
 
-const getDubleCards = (singleColorCards: Card[], playersAmount: number) => {
-  console.log("playersAmount", playersAmount);
+const getDubleCards = (
+  singleColorCards: CardsColors,
+  playersAmount: number
+) => {
   const matchedCardByPlayersAmount = singleColorCards.slice(0, playersAmount);
-  const setDubleCards = (acc: Card[], curr: Card): Card[] => {
+  const setDubleCards = (acc: Card[], curr: ColorCard): Card[] => {
     const dubleCard = {
       id: acc.length + 1,
       color: curr.color,
-      clicked: curr.clicked,
-      found: curr.found
+      clicked: false,
+      found: false
     };
-    return acc.concat(...[{ id: acc.length, ...curr }, dubleCard]);
+    return acc.concat(
+      ...[
+        { id: acc.length, color: curr.color, clicked: false, found: false },
+        dubleCard
+      ]
+    );
   };
+
   return matchedCardByPlayersAmount.reduce(setDubleCards, []);
 };
 
@@ -35,22 +47,25 @@ class App extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      cards: [
-        { id: 0, color: "red", clicked: false, found: false },
-        { id: 1, color: "red", clicked: false, found: false },
-        { id: 2, color: "blue", clicked: false, found: false },
-        { id: 3, color: "blue", clicked: false, found: false }
-      ]
+      players: [],
+      cards: [],
+      gameState: {
+        start: false,
+        play: false,
+        endGame: false
+      }
     };
+  }
+  handleGameStartState(startGame: boolean) {
+    console.log("startState", startGame);
+    this.setState({
+      gameState: { ...this.state.gameState, start: startGame, play: startGame }
+    });
   }
   onInputSubmit(value: Player) {
     this.setState((state, props) => ({
-      players:
-        state.players === undefined ? [value] : [...state.players, value],
-      cards:
-        state.players === undefined
-          ? getDubleCards(singleColorCards, 1)
-          : getDubleCards(singleColorCards, [...state.players, value].length)
+      players: [...state.players, { id: state.players.length + 1, ...value }],
+      cards: getDubleCards(singleColorCards, state.players.length + 1)
     }));
   }
   scheduleHideCard() {
@@ -112,20 +127,30 @@ class App extends React.Component<{}, State> {
       [1, 2, 3, 4]
     ];
     console.log(
-      "render player length",
-      this.state.players === undefined
-        ? "wait for first player"
-        : this.state.players.length
+      "his.state.gameState",
+      this.state.gameState,
+      "Players",
+      this.state.players
     );
 
     return (
       <div>
-        <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
+        {!this.state.gameState.play && (
+          <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
+        )}
         <PlayerWelcome players={this.state.players} />
-        <Cards
-          cards={this.state.cards}
-          onClick={(id: number) => this.setToggle(id)}
+        <GameStateManager
+          gameState={this.state.gameState}
+          onGameStart={(gameStart: boolean) =>
+            this.handleGameStartState(gameStart)
+          }
         />
+        {this.state.gameState.start && (
+          <Cards
+            cards={this.state.cards}
+            onClick={(id: number) => this.setToggle(id)}
+          />
+        )}
       </div>
     );
   }

@@ -1,20 +1,17 @@
 import React from "react";
 
 type PlayersProps = {
-  players?: Player[];
+  players: Player[];
 };
-export type Player = { name: string; surname: string };
+export type Player = { id?: number; name: string; surname: string };
 
 export function PlayerWelcome({ players }: PlayersProps) {
   return (
     <div>
       <div>
-        {players !== undefined &&
-          players.map(player => (
-            <div key={player.name}>
-              Hello: {`${player.name} ${player.surname}`}
-            </div>
-          ))}
+        {players.map(player => (
+          <div key={player.id}>Hello: {`${player.name} ${player.surname}`}</div>
+        ))}
       </div>
     </div>
   );
