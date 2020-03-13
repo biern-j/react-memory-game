@@ -9,6 +9,41 @@ type State = {
   cards: Card[];
   players?: Player[];
 };
+type singleCards = singleCard[];
+type singleCard = {
+  id?: number;
+  color: string;
+  clicked: boolean;
+  found: boolean;
+};
+
+const singleColorCards = [
+  { color: "red", clicked: false, found: false },
+  { color: "green", clicked: false, found: false },
+  { color: "blue", clicked: false, found: false },
+  { color: "yelow", clicked: false, found: false }
+];
+
+const getDubleCards = (
+  singleColorCards: singleCards,
+  playersAmount: number
+) => {
+  const matchedCardByPlayersAmount = singleColorCards.slice(0, playersAmount);
+  const cardsIndex: number[] = Array(matchedCardByPlayersAmount.length * 2);
+  const setDubleCards = (acc: singleCards, curr: singleCard) => {
+    const dubleCard = {
+      color: curr.color,
+      clicked: curr.clicked,
+      found: curr.found
+    };
+    return acc.concat(...[curr, dubleCard]);
+  };
+  const dubleCards = matchedCardByPlayersAmount.reduce(setDubleCards, []);
+  console.log("cardsIndex", cardsIndex, "dubleCards", dubleCards);
+  return cardsIndex.map(cardIndex =>
+    dubleCards.map(card => ({ id: cardIndex, ...card }))
+  );
+};
 
 class App extends React.Component<{}, State> {
   constructor(props: {}) {
@@ -23,12 +58,9 @@ class App extends React.Component<{}, State> {
     };
   }
   onInputSubmit(value: Player) {
-    this.setState({
-      players:
-        this.state.players === undefined
-          ? [value]
-          : [...this.state.players, value]
-    });
+    this.setState((state, props) => ({
+      players: state.players === undefined ? [value] : [...state.players, value]
+    }));
   }
   scheduleHideCard() {
     setTimeout(
@@ -39,7 +71,6 @@ class App extends React.Component<{}, State> {
       1000
     );
   }
-
   undisableClickedCard(state: Pick<State, "cards">) {
     return state.cards.map(card => ({
       ...card,
@@ -61,6 +92,7 @@ class App extends React.Component<{}, State> {
 
     this.setState(state => {
       const toggleClickedCards = toggleClickedCard(state);
+
       const filterDisabledCards = toggleClickedCards.filter(
         card => card.clicked
       );

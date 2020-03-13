@@ -11,7 +11,9 @@ export function PlayerWelcome({ players }: PlayersProps) {
       <div>
         {players !== undefined &&
           players.map(player => (
-            <div>Hello: {`${player.name} ${player.surname}`}</div>
+            <div key={player.name}>
+              Hello: {`${player.name} ${player.surname}`}
+            </div>
           ))}
       </div>
     </div>
