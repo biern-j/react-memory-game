@@ -18,6 +18,7 @@ export const GameForm = ({ onSubmit }: GameFormProps) => {
     <form
       onSubmit={e => {
         e.preventDefault();
+        onChange({ name: "", surname: "" });
         onSubmit(value);
         console.log("e", e);
       }}
