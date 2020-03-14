@@ -1,31 +1,72 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HelloWord, PlayerName } from "./components/hello-word";
+import { PlayerWelcome, Player } from "./components/playerWelcome";
 import { Cards, Card } from "./components/cards";
 import { sumMatrix } from "./helloTS";
+import { GameStateManager, GameState } from "./components/gameStateManager";
 import { GameForm } from "./components/gameForm";
 
 type State = {
-  names: string[];
   cards: Card[];
-  playerName?: PlayerName;
+  players: Player[];
+  gameState: GameState;
+};
+const singleColorCards = [
+  { color: "red" },
+  { color: "green" },
+  { color: "blue" },
+  { color: "yelow" }
+];
+type CardsColors = ColorCard[];
+type ColorCard = { color: string };
+
+const getDubleCards = (
+  singleColorCards: CardsColors,
+  playersAmount: number
+) => {
+  const matchedCardByPlayersAmount = singleColorCards.slice(0, playersAmount);
+  const setDubleCards = (acc: Card[], curr: ColorCard): Card[] => {
+    const dubleCard = {
+      id: acc.length + 1,
+      color: curr.color,
+      clicked: false,
+      found: false
+    };
+    return acc.concat(
+      ...[
+        { id: acc.length, color: curr.color, clicked: false, found: false },
+        dubleCard
+      ]
+    );
+  };
+
+  return matchedCardByPlayersAmount.reduce(setDubleCards, []);
 };
 
 class App extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      names: ["Jola", "Ania"],
-      cards: [
-        { id: 0, color: "red", clicked: false, found: false },
-        { id: 1, color: "red", clicked: false, found: false },
-        { id: 2, color: "blue", clicked: false, found: false },
-        { id: 3, color: "blue", clicked: false, found: false }
-      ]
+      players: [],
+      cards: [],
+      gameState: {
+        start: false,
+        play: false,
+        endGame: false
+      }
     };
   }
-  onInputSubmit(value: PlayerName) {
-    this.setState({ playerName: value });
+  handleGameStartState(startGame: boolean) {
+    console.log("startState", startGame);
+    this.setState({
+      gameState: { ...this.state.gameState, start: startGame, play: startGame }
+    });
+  }
+  onInputSubmit(value: Player) {
+    this.setState((state, props) => ({
+      players: [...state.players, { id: state.players.length + 1, ...value }],
+      cards: getDubleCards(singleColorCards, state.players.length + 1)
+    }));
   }
   scheduleHideCard() {
     setTimeout(
@@ -36,7 +77,6 @@ class App extends React.Component<{}, State> {
       1000
     );
   }
-
   undisableClickedCard(state: Pick<State, "cards">) {
     return state.cards.map(card => ({
       ...card,
@@ -58,6 +98,7 @@ class App extends React.Component<{}, State> {
 
     this.setState(state => {
       const toggleClickedCards = toggleClickedCard(state);
+
       const filterDisabledCards = toggleClickedCards.filter(
         card => card.clicked
       );
@@ -85,17 +126,31 @@ class App extends React.Component<{}, State> {
       [1, 2, 3, 4],
       [1, 2, 3, 4]
     ];
-    console.log("test", sumMatrix(matrix));
+    console.log(
+      "his.state.gameState",
+      this.state.gameState,
+      "Players",
+      this.state.players
+    );
+
     return (
       <div>
-        <HelloWord
-          playerName={this.state.playerName}
-          names={this.state.names}
+        {!this.state.gameState.play && (
+          <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
+        )}
+        <PlayerWelcome players={this.state.players} />
+        <GameStateManager
+          gameState={this.state.gameState}
+          onGameStart={(gameStart: boolean) =>
+            this.handleGameStartState(gameStart)
+          }
         />
-        <Cards
-          cards={this.state.cards}
-          onClick={(id: number) => this.setToggle(id)}
-        />
+        {this.state.gameState.start && (
+          <Cards
+            cards={this.state.cards}
+            onClick={(id: number) => this.setToggle(id)}
+          />
+        )}
       </div>
     );
   }
