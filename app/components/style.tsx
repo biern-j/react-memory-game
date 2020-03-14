@@ -32,7 +32,7 @@ export const GlobalStyle = createGlobalStyle`
 export const Text = styled.p`
   display: inline-block;
   font-size: 2em;
-  color: orange;
+  color: #ff6600;
   `;
 
 export const Input = styled.input`
@@ -43,9 +43,9 @@ export const Input = styled.input`
 export const Label = styled.label`
   display: flex;
   justify-content: center;
-  width: auto;
-  padding: 3em;
+  width: ${props => props.primary ?"0" : "auto"};
+  padding: ${props => props.primary ? "0" : "3em"};
   margin: 2vh auto;
-  background: #66ffe0;
+  background: #66ffe0};
   clear: left;
 `;

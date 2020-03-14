@@ -37,7 +37,9 @@ export const GameForm = ({ onSubmit }: GameFormProps) => {
           />
       </Label>
 
-      <input type="submit" value="Submit" />
+      <Label primary>
+        <Input type="submit" value="Submit" />
+      </Label>
     </form>
   );
 };
