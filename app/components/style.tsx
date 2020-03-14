@@ -23,6 +23,29 @@ export const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 10vh 10vw 10vh 10vw;
+    box-sizing: border-box;
     background: #00ffcc;
+    font-size:10px;
   }
-  `
+  `;
+
+export const Text = styled.p`
+  display: inline-block;
+  font-size: 2em;
+  color: orange;
+  `;
+
+export const Input = styled.input`
+  font-size: 1.8em;
+  padding: 0.8em;
+  `;
+
+export const Label = styled.label`
+  display: flex;
+  justify-content: center;
+  width: auto;
+  padding: 3em;
+  margin: 2vh auto;
+  background: #66ffe0;
+  clear: left;
+`;
