@@ -60,7 +60,9 @@ class App extends React.Component<{}, State> {
   handleGameStartState(startGame: boolean) {
     console.log("startState", startGame);
     this.setState({
-      gameState: { ...this.state.gameState, start: startGame, play: startGame }
+      gameState: { ...this.state.gameState, start: startGame, play: startGame },
+      players: !startGame ? [] : this.state.players,
+      cards: !startGame ? [] : this.state.cards
     });
   }
   onInputSubmit(value: Player) {
