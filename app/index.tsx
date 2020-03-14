@@ -52,7 +52,6 @@ class App extends React.Component<{}, State> {
       cards: [],
       gameState: {
         start: false,
-        play: false,
         endGame: false
       }
     };
@@ -60,7 +59,11 @@ class App extends React.Component<{}, State> {
   handleGameStartState(startGame: boolean) {
     console.log("startState", startGame);
     this.setState({
-      gameState: { ...this.state.gameState, start: startGame, play: startGame },
+      gameState: {
+        ...this.state.gameState,
+        start: startGame,
+        play: { playerId: 1, playerMoves: [] }
+      },
       players: !startGame ? [] : this.state.players,
       cards: !startGame ? [] : this.state.cards
     });
