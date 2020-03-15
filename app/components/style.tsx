@@ -32,7 +32,7 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 10vh 10vw 10vh 10vw;
     box-sizing: border-box;
-    background: #00ffcc;
+    background: #f6d2d6;
     font-size:10px;
   }
   `;
@@ -40,13 +40,15 @@ export const GlobalStyle = createGlobalStyle`
 export const Text = styled.p`
   display: inline-block;
   font-size: 2em;
-  color: #ff6600;
+  color: #6a4162;
   `;
 
 export const Input = styled.input<InputProps>`
   font-size: 1.8em;
   padding: 0.8em;
-  background: ${props => (props.type === "submit" ? "#ffb3e6" : "#ffeee6")};
+  border-radius: 5%;
+  color: ${props => (props.type === "submit" ? "#6a4162" : "#fefafa")};
+  background: ${props => (props.type === "submit" ? "#f39db6" : "#d46a92")};
   `;
 
 export const Label = styled.label<LabelProps>`
@@ -55,6 +57,23 @@ export const Label = styled.label<LabelProps>`
   width: ${props => props.primary ? "0" : "auto"};
   padding: ${props => props.primary ? "0" : "3em"};
   margin: 2vh auto;
-  background: #66ffe0};
+  background: #f39db6};
   clear: left;
 `;
+
+export const HelloDiv = styled.div`
+  padding: 3em;
+  display: inline-block;
+  font-size: 2em;
+  color: #6a4162;
+  `;
+
+export const ReStartButton = styled.button`
+  border: 0.4em solid pink;
+  margin: 0 3em 3em 3em;
+  padding: 1em 2em;
+  font-size: 2em;
+  color: #6a4162;
+  border-radius: 5%;
+  background-color: #fefafa;
+  `;
