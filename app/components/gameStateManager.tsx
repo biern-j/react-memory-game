@@ -3,7 +3,7 @@ import { GameStatePanel } from "./style";
 
 export type GameState = {
   start: boolean;
-  play?: { playerId: number; playerMoves: CardId[] };
+  play: boolean;
   endGame: boolean;
 };
 type CardId = number;

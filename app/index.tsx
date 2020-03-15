@@ -52,17 +52,16 @@ class App extends React.Component<{}, State> {
       cards: [],
       gameState: {
         start: false,
+        play: true,
         endGame: false
       }
     };
   }
   handleGameStartState(startGame: boolean) {
-    console.log("startState", startGame);
     this.setState({
       gameState: {
         ...this.state.gameState,
-        start: startGame,
-        play: { playerId: 1, playerMoves: [] }
+        start: startGame
       },
       players: !startGame ? [] : this.state.players,
       cards: !startGame ? [] : this.state.cards
@@ -77,9 +76,15 @@ class App extends React.Component<{}, State> {
   scheduleHideCard() {
     setTimeout(
       () =>
-        this.setState(state => ({
-          cards: this.undisableClickedCard(state)
-        })),
+        this.setState(state => {
+          return {
+            cards: this.undisableClickedCard(state),
+            gameState: {
+              ...state.gameState,
+              play: !state.gameState.play
+            }
+          };
+        }),
       1000
     );
   }
@@ -132,16 +137,11 @@ class App extends React.Component<{}, State> {
       [1, 2, 3, 4],
       [1, 2, 3, 4]
     ];
-    console.log(
-      "his.state.gameState",
-      this.state.gameState,
-      "Players",
-      this.state.players
-    );
+    console.log("his.state.gameState", this.state.gameState);
 
     return (
       <div>
-        {!this.state.gameState.play && (
+        {!this.state.gameState.start && (
           <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
         )}
         <PlayerWelcome players={this.state.players} />
