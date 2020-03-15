@@ -103,7 +103,7 @@ class App extends React.Component<{}, State> {
     const setFoundCard = (cards: Card[], disabledCards: Card[]) =>
       cards.map((card: Card) =>
         card.id === disabledCards[0].id || card.id === disabledCards[1].id
-          ? { ...card, clicked: card.clicked, found: true }
+          ? { ...card, clicked: !card.clicked, found: true }
           : card
       );
 
@@ -137,7 +137,7 @@ class App extends React.Component<{}, State> {
       [1, 2, 3, 4],
       [1, 2, 3, 4]
     ];
-    console.log("his.state.gameState", this.state.gameState);
+    console.log("his.state.gameState", this.state.cards);
 
     return (
       <div>
