@@ -18,16 +18,16 @@ export const GameForm = ({ onSubmit }: GameFormProps) => {
         console.log("e", e);
       }}
     >
-      <Label>
+      <Label primary={false}>
         <Text>Name:</Text>
           <Input
             value={value.name}
             type="text"
             name="name"
-            onChange={e => onChange({ ...value, name: e.target.value })}
+            onChange={e => onChange({ ...value, name: e.target.value })} required
           />
       </Label>
-      <Label>
+      <Label primary={false}>
           <Text>Surname:</Text>
           <Input
             value={value.surname}
@@ -37,7 +37,7 @@ export const GameForm = ({ onSubmit }: GameFormProps) => {
           />
       </Label>
 
-      <Label primary>
+      <Label primary={true}>
         <Input type="submit" value="Submit" />
       </Label>
     </form>
