@@ -2,8 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { PlayerWelcome, Player } from "./components/playerWelcome";
 import { Cards, Card } from "./components/cards";
-import { sumMatrix } from "./helloTS";
-import { GameStateManager, GameState } from "./components/gameStateManager";
+import {
+  GameStateManager,
+  GameState,
+  PlayerResults
+} from "./components/gameStateManager";
 import { GameForm } from "./components/gameForm";
 import { GlobalStyle } from "./components/style";
 
@@ -52,18 +55,21 @@ class App extends React.Component<{}, State> {
       cards: [],
       gameState: {
         start: false,
-        play: true,
+        changedPlayer: true,
+        playersResults: [],
         endGame: false
       }
     };
   }
   handleGameStartState(startGame: boolean) {
+    const fistPlayerActive = this.state.players;
+    fistPlayerActive[0] = { ...this.state.players[0], active: true };
     this.setState({
       gameState: {
         ...this.state.gameState,
         start: startGame
       },
-      players: !startGame ? [] : this.state.players,
+      players: !startGame ? [] : fistPlayerActive,
       cards: !startGame ? [] : this.state.cards
     });
   }
@@ -77,12 +83,17 @@ class App extends React.Component<{}, State> {
     setTimeout(
       () =>
         this.setState(state => {
+          const activePlayer = state.players.find(
+            player => player.active === true
+          );
+          const nextActivePlayer = activePlayer;
           return {
             cards: this.undisableClickedCard(state),
             gameState: {
               ...state.gameState,
-              play: !state.gameState.play
-            }
+              changedPlayer: !state.gameState.changedPlayer
+            },
+            players: []
           };
         }),
       1000
@@ -116,8 +127,21 @@ class App extends React.Component<{}, State> {
 
       if (filterDisabledCards.length === 2) {
         if (filterDisabledCards[0].color === filterDisabledCards[1].color) {
+          const activePlayer = state.players.find(
+            player => player.active === true
+          );
+          console.log("activePlayerResults", activePlayer);
+
           return {
-            cards: setFoundCard(toggleClickedCards, filterDisabledCards)
+            cards: setFoundCard(toggleClickedCards, filterDisabledCards),
+            gameState: {
+              ...state.gameState,
+              playersResults: addPlayerPoint(
+                state.gameState.playersResults,
+                activePlayer!.id!,
+                filterDisabledCards[0]
+              )
+            }
           };
         } else {
           this.scheduleHideCard();
@@ -125,19 +149,14 @@ class App extends React.Component<{}, State> {
       }
 
       return {
-        cards: toggleClickedCards
+        cards: toggleClickedCards,
+        gameState: state.gameState
       };
     });
   }
 
   render() {
-    const matrix = [
-      [1, 2, 3, 4],
-      [1, 2, 3, 4],
-      [1, 2, 3, 4],
-      [1, 2, 3, 4]
-    ];
-    console.log("his.state.gameState", this.state.cards);
+    console.log("his.state.gameState", this.state.players);
 
     return (
       <div>
@@ -162,4 +181,22 @@ class App extends React.Component<{}, State> {
   }
 }
 
-ReactDOM.render(<><GlobalStyle/><App /></>, document.getElementById("app"));
+const addPlayerPoint = (
+  playerResults: PlayerResults,
+  playerId: number,
+  card: Card
+): PlayerResults => {
+  //mapem: spr czy w playerResults jest id playrId, => find w playerResults => playerResults.results add Card.color
+  return {
+    ...playerResults,
+    [playerId]: [...(playerResults[playerId] || []), card]
+  };
+};
+
+ReactDOM.render(
+  <>
+    <GlobalStyle />
+    <App />
+  </>,
+  document.getElementById("app")
+);

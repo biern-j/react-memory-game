@@ -1,12 +1,25 @@
 import React from "react";
+<<<<<<< HEAD
 import { GameStatePanel } from "./style";
+=======
+import { Player } from "./playerWelcome";
+>>>>>>> Set player results
 
 export type GameState = {
   start: boolean;
-  play: boolean;
+  changedPlayer: boolean;
+  playersResults: PlayerResults;
   endGame: boolean;
 };
-type CardId = number;
+export type PlayerResults = {
+  [key in number]: { color: string }[] | undefined;
+};
+
+// x = {
+//   1: [],
+//   3: [{}]
+// }
+
 type GameStateProps = {
   gameState: GameState;
   onGameStart: (value: boolean) => void;
