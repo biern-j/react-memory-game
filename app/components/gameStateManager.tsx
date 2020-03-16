@@ -1,4 +1,5 @@
 import React from "react";
+import { ReStartButton } from "./style"
 
 export type GameState = {
   start: boolean;
@@ -16,9 +17,9 @@ export const GameStateManager = ({
 }: GameStateProps) => {
   return (
     <div>
-      <button onClick={() => onGameStart(!gameState.start)}>
-        {gameState.start ? "resetart" : "start"}
-      </button>
+      <ReStartButton onClick={() => onGameStart(!gameState.start)}>
+        {gameState.start ? "Resetart" : "Start"}
+      </ReStartButton>
     </div>
   );
 };

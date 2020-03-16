@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "./style";
+import { CardButton } from "./style";
 interface CardsProps {
   cards: Card[];
   onClick: any;
@@ -14,7 +14,7 @@ export type Card = {
 export function Cards({ cards, onClick }: CardsProps) {
   const makeButtons = (card: Card) => {
     return (
-      <Button
+      <CardButton
         backgroundColorCard={card}
         disabled={card.found ? true : card.clicked}
         onClick={() => onClick(card.id)}
@@ -22,7 +22,7 @@ export function Cards({ cards, onClick }: CardsProps) {
       >
         {card.id}
         {card.color}
-      </Button>
+      </CardButton>
     );
   };
   return <div>{cards.map(item => makeButtons(item))}</div>;

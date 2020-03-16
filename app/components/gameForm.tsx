@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
 import { Player } from "./playerWelcome";
+import {
+  NewPlayerDataContainer,
+  NewPlayerInput,
+  PersonalDataTytle
+} from "./style";
 
 type GameFormProps = {
   onSubmit: (value: Player) => void;
@@ -17,26 +22,29 @@ export const GameForm = ({ onSubmit }: GameFormProps) => {
         console.log("e", e);
       }}
     >
-      <label>
-        Name:
-        <input
+      <NewPlayerDataContainer primary={false}>
+        <PersonalDataTytle>Name:</PersonalDataTytle>
+        <NewPlayerInput
           value={value.name}
           type="text"
           name="name"
           onChange={e => onChange({ ...value, name: e.target.value })}
+          required
         />
-      </label>
-      <label>
-        Surname:
-        <input
+      </NewPlayerDataContainer>
+      <NewPlayerDataContainer primary={false}>
+        <PersonalDataTytle>Surname:</PersonalDataTytle>
+        <NewPlayerInput
           value={value.surname}
           type="text"
           name="surname"
           onChange={e => onChange({ ...value, surname: e.target.value })}
         />
-      </label>
+      </NewPlayerDataContainer>
 
-      <input type="submit" value="Submit" />
+      <NewPlayerDataContainer primary={true}>
+        <NewPlayerInput type="submit" value="Submit" />
+      </NewPlayerDataContainer>
     </form>
   );
 };

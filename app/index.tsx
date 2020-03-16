@@ -5,6 +5,7 @@ import { Cards, Card } from "./components/cards";
 import { sumMatrix } from "./helloTS";
 import { GameStateManager, GameState } from "./components/gameStateManager";
 import { GameForm } from "./components/gameForm";
+import { GlobalStyle } from "./components/style";
 
 type State = {
   cards: Card[];
@@ -156,4 +157,4 @@ class App extends React.Component<{}, State> {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<><GlobalStyle/><App /></>, document.getElementById("app"));
