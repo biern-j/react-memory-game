@@ -1,9 +1,6 @@
 import React from "react";
-<<<<<<< HEAD
+
 import { GameStatePanel } from "./style";
-=======
-import { Player } from "./playerWelcome";
->>>>>>> Set player results
 
 export type GameState = {
   start: boolean;
@@ -12,8 +9,10 @@ export type GameState = {
   endGame: boolean;
 };
 export type PlayerResults = {
-  [key in number]: { playerId: number; color: string }[] | undefined;
+  [key in number]: PlayerScoreCards | undefined;
 };
+
+type PlayerScoreCards = { playerId: number; color: string }[];
 
 // x = {
 //   1: [],

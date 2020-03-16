@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PlayerResults } from "./gameStateManager";
+import { PlayerResults, PlayerScoreCards } from "./gameStateManager";
 import { Player } from "./playerWelcome";
 
 type PlayersTableProps = {
@@ -23,7 +23,7 @@ export const PlayersTable = ({
             <div>Player name: {player.name}</div>
             <div>
               Player points:
-              {getPlayerPoints(player.id!, playersResults)}
+              {getPlayerPoints(playersResults[player.id!] || [])}
             </div>
           </div>
         ))}
@@ -32,15 +32,5 @@ export const PlayersTable = ({
   );
 };
 
-const getPlayerPoints = (playerId: number, playersResults: PlayerResults) =>
-  Object.values(playersResults).map(result =>
-    result === undefined
-      ? result
-      : result.map(item =>
-          item.playerId === playerId ? (
-            <div key={item.color}>{item.color}</div>
-          ) : (
-            ""
-          )
-        )
-  );
+const getPlayerPoints = (playersResults: PlayerScoreCards) =>
+  playersResults.map(item => <div key={item.color}>{item.color}</div>);
