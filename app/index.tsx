@@ -9,6 +9,7 @@ import {
 } from "./components/gameStateManager";
 import { GameForm } from "./components/gameForm";
 import { GlobalStyle } from "./components/style";
+import { PlayersTable } from "./components/playersTable";
 
 type State = {
   cards: Card[];
@@ -75,7 +76,7 @@ class App extends React.Component<{}, State> {
   }
   onInputSubmit(value: Player) {
     this.setState((state, props) => ({
-      players: [...state.players, { id: state.players.length + 1, ...value }],
+      players: [...state.players, { id: state.players.length, ...value }],
       cards: getDubleCards(singleColorCards, state.players.length + 1)
     }));
   }
@@ -86,14 +87,26 @@ class App extends React.Component<{}, State> {
           const activePlayer = state.players.find(
             player => player.active === true
           );
-          const nextActivePlayer = activePlayer;
+          const nextActivePlayer = nextActivePlayerId(
+            activePlayer!.id!, // ustawić id, zeby nie był undefined
+            state.players
+          );
+
           return {
             cards: this.undisableClickedCard(state),
             gameState: {
               ...state.gameState,
               changedPlayer: !state.gameState.changedPlayer
             },
-            players: []
+            players: state.players.map(player => {
+              if (player.active) {
+                return { ...player, active: false };
+              }
+              if (player.id === nextActivePlayer) {
+                return { ...player, active: true };
+              }
+              return player;
+            })
           };
         }),
       1000
@@ -138,7 +151,7 @@ class App extends React.Component<{}, State> {
               ...state.gameState,
               playersResults: addPlayerPoint(
                 state.gameState.playersResults,
-                activePlayer!.id!,
+                activePlayer!.id!, // ustawić id zeby nie było udnefined
                 filterDisabledCards[0]
               )
             }
@@ -156,7 +169,14 @@ class App extends React.Component<{}, State> {
   }
 
   render() {
-    console.log("his.state.gameState", this.state.players);
+    console.log(
+      "his.state.gameState",
+      this.state.players,
+      "this.state.gameState.playersResults",
+      this.state.gameState.playersResults,
+      "results",
+      Object.values(this.state.gameState.playersResults)
+    );
 
     return (
       <div>
@@ -164,6 +184,12 @@ class App extends React.Component<{}, State> {
           <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
         )}
         <PlayerWelcome players={this.state.players} />
+        {this.state.gameState.start && (
+          <PlayersTable
+            players={this.state.players}
+            playersResults={this.state.gameState.playersResults}
+          />
+        )}
         <GameStateManager
           gameState={this.state.gameState}
           onGameStart={(gameStart: boolean) =>
@@ -187,10 +213,17 @@ const addPlayerPoint = (
   card: Card
 ): PlayerResults => {
   //mapem: spr czy w playerResults jest id playrId, => find w playerResults => playerResults.results add Card.color
+
   return {
     ...playerResults,
-    [playerId]: [...(playerResults[playerId] || []), card]
+    [playerId]: [...(playerResults[playerId] || []), { color: card.color }]
   };
+};
+const nextActivePlayerId = (activePlayer: number, players: Player[]) => {
+  const nextActivePlayerId = activePlayer + 1;
+  return nextActivePlayerId > players.length
+    ? players[0].id
+    : nextActivePlayerId;
 };
 
 ReactDOM.render(

@@ -12,7 +12,7 @@ export type GameState = {
   endGame: boolean;
 };
 export type PlayerResults = {
-  [key in number]: { color: string }[] | undefined;
+  [key in number]: { playerId: number; color: string }[] | undefined;
 };
 
 // x = {
