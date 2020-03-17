@@ -204,7 +204,10 @@ class App extends React.Component<{}, State> {
             onClick={(id: number) => this.setToggle(id)}
           />
         )}
-        <GameSummary winnerPlayer={this.state.gameState.playersResults} />
+        <GameSummary
+          players={this.state.players}
+          playersResults={this.state.gameState.playersResults}
+        />
         {/* {this.state.gameState.endGame && (
           <GameSummary/>
         )} */}

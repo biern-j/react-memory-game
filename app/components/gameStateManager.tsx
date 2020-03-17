@@ -9,7 +9,7 @@ export type GameState = {
   endGame: boolean;
 };
 export type PlayerResults = {
-  [key in number]: PlayerScoreCards | undefined;
+  [key in number]?: PlayerScoreCards;
 };
 
 export type PlayerScoreCards = { color: string }[];

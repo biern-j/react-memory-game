@@ -1,17 +1,30 @@
 import React from "react";
-import { PlayerResults, PlayerScoreCards } from "./gameStateManager";
+import { PlayerResults } from "./gameStateManager";
+import { Player } from "./playerWelcome";
+import * as R from "ramda";
 
 type GameSummaryProps = {
-  winnerPlayer: PlayerResults;
+  players: Player[];
+  playersResults: PlayerResults;
 };
 
-export const GameSummary = ({ winnerPlayer }: GameSummaryProps) => {
-  const getWinner = (acc: number, curr: PlayerScoreCards): number =>
-    (curr || []).length > acc ? curr.length : acc;
+export const GameSummary = ({ players, playersResults }: GameSummaryProps) => {
+  const entries = Object.entries(playersResults);
+  const playersPoints = entries.map(playerResult => ({
+    playerId: Number(playerResult[0]),
+    playerPoints: (playerResult[1] || []).length
+  }));
 
-  const winner =
-    winnerPlayer === undefined
-      ? "no jeest"
-      : Object.values(winnerPlayer).reduce(getWinner, 0);
-  return <div>Game winner point: {winner}</div>;
+  const sortByPlayersPoints = R.sortBy(i => -i.playerPoints);
+  const sortedPlayers = sortByPlayersPoints(playersPoints);
+  const winner = R.head(sortedPlayers);
+
+  return (
+    <div>
+      Game winner point:{" "}
+      {winner === undefined ? "No winner" : players[winner.playerId]}
+    </div>
+  );
 };
+
+// {players[winnerPlayerId] || "No winner"}
