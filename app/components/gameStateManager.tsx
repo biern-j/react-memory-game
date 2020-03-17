@@ -12,7 +12,7 @@ export type PlayerResults = {
   [key in number]: PlayerScoreCards | undefined;
 };
 
-type PlayerScoreCards = { playerId: number; color: string }[];
+export type PlayerScoreCards = { color: string }[];
 
 // x = {
 //   1: [],
