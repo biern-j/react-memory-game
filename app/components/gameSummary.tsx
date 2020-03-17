@@ -17,14 +17,20 @@ export const GameSummary = ({ players, playersResults }: GameSummaryProps) => {
 
   const sortByPlayersPoints = R.sortBy(i => -i.playerPoints);
   const sortedPlayers = sortByPlayersPoints(playersPoints);
-  const winner = R.head(sortedPlayers);
+  const winnerScore = R.head(sortedPlayers);
 
   return (
     <div>
-      Game winner point:{" "}
-      {winner === undefined ? "No winner" : players[winner.playerId]}
+      <div>
+        Game winner:
+        {winnerScore === undefined
+          ? "No winner"
+          : players[winnerScore.playerId].name}
+      </div>
+      <div>
+        Winer points:
+        {winnerScore === undefined ? "No points" : winnerScore.playerPoints}
+      </div>
     </div>
   );
 };
-
-// {players[winnerPlayerId] || "No winner"}

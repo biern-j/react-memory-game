@@ -134,11 +134,9 @@ class App extends React.Component<{}, State> {
       );
 
     this.setState(state => {
-      const toggleClickedCards = toggleClickedCard(state);
+      const toggledCards = toggleClickedCard(state);
 
-      const filterDisabledCards = toggleClickedCards.filter(
-        card => card.clicked
-      );
+      const filterDisabledCards = toggledCards.filter(card => card.clicked);
 
       if (filterDisabledCards.length === 2) {
         if (filterDisabledCards[0].color === filterDisabledCards[1].color) {
@@ -148,7 +146,7 @@ class App extends React.Component<{}, State> {
           console.log("activePlayerResults", activePlayer);
 
           return {
-            cards: setFoundCard(toggleClickedCards, filterDisabledCards),
+            cards: setFoundCard(toggledCards, filterDisabledCards),
             gameState: {
               ...state.gameState,
               playersResults: addPlayerPoint(
@@ -156,7 +154,8 @@ class App extends React.Component<{}, State> {
                 activePlayer.id,
                 filterDisabledCards[0]
               )
-            }
+            },
+            players: state.players
           };
         } else {
           this.scheduleHideCard();
@@ -164,8 +163,9 @@ class App extends React.Component<{}, State> {
       }
 
       return {
-        cards: toggleClickedCards,
-        gameState: state.gameState
+        cards: toggledCards,
+        gameState: state.gameState,
+        players: state.players
       };
     });
   }
