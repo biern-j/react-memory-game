@@ -12,10 +12,10 @@ export const PlayersTable = ({
   players,
   playersResults
 }: PlayersTableProps) => {
-  const activePlayer = players.find(player => player.active === true);
+  const activePlayer = players.find(player => player.active === true)!;
   return (
     <div>
-      <div>Active player: {activePlayer!.name}</div>
+      <div>Active player: {activePlayer.name}</div>
       <div>
         Players ranking:
         {players.map(player => (
@@ -23,7 +23,7 @@ export const PlayersTable = ({
             <div>Player name: {player.name}</div>
             <div>
               Player points:
-              {getPlayerPoints(playersResults[player.id!] || [])}
+              {getPlayerPoints(playersResults[player.id] || [])}
             </div>
           </div>
         ))}

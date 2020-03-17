@@ -5,7 +5,7 @@ type CardButtonProps = {
   backgroundColorCard: { clicked: boolean; found: boolean; color: string };
 };
 
-type NewPlayerDataContainerProps = {
+type NewPlayerWraperProps = {
   primary: boolean;
 };
 
@@ -37,7 +37,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   `;
 
-export const PersonalDataTytle = styled.p`
+export const NewPlayerName = styled.p`
   display: inline-block;
   font-size: 2em;
   color: #6a4162;
@@ -51,7 +51,7 @@ export const NewPlayerInput = styled.input<NewPlayerInputProps>`
   background: ${props => (props.type === "submit" ? "#f39db6" : "#d46a92")};
 `;
 
-export const NewPlayerDataContainer = styled.label<NewPlayerDataContainerProps>`
+export const NewPlayerWraper = styled.label<NewPlayerWraperProps>`
   display: flex;
   justify-content: center;
   width: ${props => (props.primary ? "0" : "auto")};
@@ -61,7 +61,7 @@ export const NewPlayerDataContainer = styled.label<NewPlayerDataContainerProps>`
   clear: left;
 `;
 
-export const Welcome = styled.div`
+export const NewPlayerWelcome = styled.div`
   padding: 3em;
   display: inline-block;
   font-size: 2em;

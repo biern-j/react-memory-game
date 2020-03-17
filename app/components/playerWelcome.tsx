@@ -1,22 +1,22 @@
 import React from "react";
-import { Welcome } from "./style";
+import { NewPlayerWelcome } from "./style";
 
 type PlayersProps = {
   players: Player[];
 };
 export type Player = {
-  id?: number;
+  id: number;
   name: string;
   surname: string;
-  active?: boolean;
+  active: boolean;
 };
 
 export function PlayerWelcome({ players }: PlayersProps) {
   return (
-    <Welcome>
+    <NewPlayerWelcome>
       {players.map(player => (
         <div key={player.id}> Hello: {`${player.name} ${player.surname}`}</div>
       ))}
-    </Welcome>
+    </NewPlayerWelcome>
   );
 }

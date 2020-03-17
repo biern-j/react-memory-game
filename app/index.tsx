@@ -11,6 +11,7 @@ import { GameForm } from "./components/gameForm";
 import { GlobalStyle } from "./components/style";
 import { PlayersTable } from "./components/playersTable";
 import * as R from "ramda";
+import { GameSummary } from "./components/gameSummary";
 
 type State = {
   cards: Card[];
@@ -26,29 +27,6 @@ const singleColorCards = [
 type CardsColors = ColorCard[];
 type ColorCard = { color: string };
 
-const getDubleCards = (
-  singleColorCards: CardsColors,
-  playersAmount: number
-) => {
-  const matchedCardByPlayersAmount = singleColorCards.slice(0, playersAmount);
-  const setDubleCards = (acc: Card[], curr: ColorCard): Card[] => {
-    const dubleCard = {
-      id: acc.length + 1,
-      color: curr.color,
-      clicked: false,
-      found: false
-    };
-    return acc.concat(
-      ...[
-        { id: acc.length, color: curr.color, clicked: false, found: false },
-        dubleCard
-      ]
-    );
-  };
-
-  return matchedCardByPlayersAmount.reduce(setDubleCards, []);
-};
-
 class App extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
@@ -58,8 +36,7 @@ class App extends React.Component<{}, State> {
       gameState: {
         start: false,
         changedPlayer: true,
-        playersResults: [],
-        endGame: false
+        playersResults: []
       }
     };
   }
@@ -72,13 +49,19 @@ class App extends React.Component<{}, State> {
         start: startGame
       },
       players: !startGame ? [] : fistPlayerActive,
-      cards: !startGame ? [] : this.state.cards
+      cards: !startGame
+        ? []
+        : sortRandomly(
+            getDubleCards(singleColorCards, this.state.players.length, 2)
+          )
     });
   }
-  onInputSubmit(value: Player) {
+  onInputSubmit(value: { name: string; surname: string }) {
     this.setState((state, props) => ({
-      players: [...state.players, { id: state.players.length, ...value }],
-      cards: getDubleCards(singleColorCards, state.players.length + 1)
+      players: [
+        ...state.players,
+        { id: state.players.length, ...value, active: false }
+      ]
     }));
   }
   scheduleHideCard() {
@@ -87,9 +70,9 @@ class App extends React.Component<{}, State> {
         this.setState(state => {
           const activePlayer = state.players.find(
             player => player.active === true
-          );
+          )!;
           const nextActivePlayer = nextActivePlayerId(
-            activePlayer!.id!, // ustawić id, zeby nie był undefined
+            activePlayer.id,
             state.players
           );
 
@@ -100,13 +83,10 @@ class App extends React.Component<{}, State> {
               changedPlayer: !state.gameState.changedPlayer
             },
             players: state.players.map(player => {
-              if (player.active) {
-                return { ...player, active: false };
-              }
-              if (player.id === nextActivePlayer) {
-                return { ...player, active: true };
-              }
-              return player;
+              return {
+                ...player,
+                active: player.id === nextActivePlayer
+              };
             })
           };
         }),
@@ -133,29 +113,29 @@ class App extends React.Component<{}, State> {
       );
 
     this.setState(state => {
-      const toggleClickedCards = toggleClickedCard(state);
+      const toggledCards = toggleClickedCard(state);
 
-      const filterDisabledCards = toggleClickedCards.filter(
-        card => card.clicked
-      );
+      const filterDisabledCards = toggledCards.filter(card => card.clicked);
 
       if (filterDisabledCards.length === 2) {
         if (filterDisabledCards[0].color === filterDisabledCards[1].color) {
           const activePlayer = state.players.find(
             player => player.active === true
-          );
+          )!;
           console.log("activePlayerResults", activePlayer);
 
           return {
-            cards: setFoundCard(toggleClickedCards, filterDisabledCards),
+            cards: setFoundCard(toggledCards, filterDisabledCards),
             gameState: {
               ...state.gameState,
+              // gameEnd: setGameEnd(this.state.cards),
               playersResults: addPlayerPoint(
                 state.gameState.playersResults,
-                activePlayer!.id!, // ustawić id zeby nie było udnefined
+                activePlayer.id,
                 filterDisabledCards[0]
               )
-            }
+            },
+            players: state.players
           };
         } else {
           this.scheduleHideCard();
@@ -163,26 +143,20 @@ class App extends React.Component<{}, State> {
       }
 
       return {
-        cards: toggleClickedCards,
-        gameState: state.gameState
+        cards: toggledCards,
+        gameState: state.gameState,
+        players: state.players
       };
     });
   }
 
   render() {
-    console.log(
-      "his.state.gameState",
-      this.state.players,
-      "this.state.gameState.playersResults",
-      this.state.gameState.playersResults,
-      "results",
-      Object.values(this.state.gameState.playersResults)
-    );
+    console.log("this.state.gameState.playersResults", this.state.gameState);
 
     return (
       <div>
         {!this.state.gameState.start && (
-          <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
+          <GameForm onSubmit={value => this.onInputSubmit(value)} />
         )}
         <PlayerWelcome players={this.state.players} />
         {this.state.gameState.start && (
@@ -192,6 +166,7 @@ class App extends React.Component<{}, State> {
           />
         )}
         <GameStateManager
+          totalPlayers={this.state.players.length}
           gameState={this.state.gameState}
           onGameStart={(gameStart: boolean) =>
             this.handleGameStartState(gameStart)
@@ -199,16 +174,27 @@ class App extends React.Component<{}, State> {
         />
         {this.state.gameState.start && (
           <Cards
-            cards={sortRandomly(this.state.cards)}
+            cards={this.state.cards}
             onClick={(id: number) => this.setToggle(id)}
+          />
+        )}
+
+        {this.state.cards.length !== 0 && setGameEnd(this.state.cards) && (
+          <GameSummary
+            players={this.state.players}
+            playersResults={this.state.gameState.playersResults}
           />
         )}
       </div>
     );
   }
 }
+// if all maped cards fullfill condition card.found then return true
+const setGameEnd = (cards: Card[]) => cards.every(card => card.found);
 
-const sortRandomly = (cards) => { R.sortBy(i => Math.random())(cards);
+const sortRandomly = (cards: Card[]) => {
+  const sortRandomly = R.sortBy(i => Math.random());
+  return sortRandomly(cards);
 };
 
 const addPlayerPoint = (
@@ -216,8 +202,6 @@ const addPlayerPoint = (
   playerId: number,
   card: Card
 ): PlayerResults => {
-  //mapem: spr czy w playerResults jest id playrId, => find w playerResults => playerResults.results add Card.color
-
   return {
     ...playerResults,
     [playerId]: [...(playerResults[playerId] || []), { color: card.color }]
@@ -225,9 +209,36 @@ const addPlayerPoint = (
 };
 const nextActivePlayerId = (activePlayer: number, players: Player[]) => {
   const nextActivePlayerId = activePlayer + 1;
-  return nextActivePlayerId > players.length
+  return nextActivePlayerId >= players.length
     ? players[0].id
     : nextActivePlayerId;
+};
+const getDubleCards = (
+  singleColorCards: CardsColors,
+  totalPlayers: number,
+  dificultyLevel: number
+) => {
+  const selectedCardsByTotalPlayers = singleColorCards.slice(
+    0,
+    totalPlayers * dificultyLevel
+  );
+  const setDubleCards = (acc: Card[], curr: ColorCard): Card[] => {
+    console.log("accumulated", acc, "cuurent", curr);
+    const dubleCard = {
+      id: acc.length + 1,
+      color: curr.color,
+      clicked: false,
+      found: false
+    };
+    return acc.concat(
+      ...[
+        { id: acc.length, color: curr.color, clicked: false, found: false },
+        dubleCard
+      ]
+    );
+  };
+
+  return selectedCardsByTotalPlayers.reduce(setDubleCards, []);
 };
 
 ReactDOM.render(
