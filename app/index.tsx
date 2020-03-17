@@ -10,6 +10,7 @@ import {
 import { GameForm } from "./components/gameForm";
 import { GlobalStyle } from "./components/style";
 import { PlayersTable } from "./components/playersTable";
+import * as R from "ramda";
 
 type State = {
   cards: Card[];
@@ -198,7 +199,7 @@ class App extends React.Component<{}, State> {
         />
         {this.state.gameState.start && (
           <Cards
-            cards={this.state.cards}
+            cards={sortRandomly(this.state.cards)}
             onClick={(id: number) => this.setToggle(id)}
           />
         )}
@@ -206,6 +207,10 @@ class App extends React.Component<{}, State> {
     );
   }
 }
+
+const sortRandomly = (cards: Card[]) => { const sortRandomly = R.sortBy(i => Math.random());
+  return sortRandomly(cards);
+};
 
 const addPlayerPoint = (
   playerResults: PlayerResults,
