@@ -73,7 +73,7 @@ class App extends React.Component<{}, State> {
         start: startGame
       },
       players: !startGame ? [] : fistPlayerActive,
-      cards: !startGame ? [] : this.state.cards
+      cards: !startGame ? [] : sortRandomly(this.state.cards)
     });
   }
   onInputSubmit(value: { name: string; surname: string }) {
@@ -200,7 +200,7 @@ class App extends React.Component<{}, State> {
         />
         {this.state.gameState.start && (
           <Cards
-            cards={sortRandomly(this.state.cards)}
+            cards={this.state.cards}
             onClick={(id: number) => this.setToggle(id)}
           />
         )}
