@@ -1,5 +1,5 @@
 import React from "react";
-import { ReStartButton } from "./style"
+import { GameStatePanel } from "./style";
 
 export type GameState = {
   start: boolean;
@@ -17,9 +17,9 @@ export const GameStateManager = ({
 }: GameStateProps) => {
   return (
     <div>
-      <ReStartButton onClick={() => onGameStart(!gameState.start)}>
+      <GameStatePanel onClick={() => onGameStart(!gameState.start)}>
         {gameState.start ? "Resetart" : "Start"}
-      </ReStartButton>
+      </GameStatePanel>
     </div>
   );
 };
