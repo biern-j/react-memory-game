@@ -49,7 +49,11 @@ class App extends React.Component<{}, State> {
         start: startGame
       },
       players: !startGame ? [] : fistPlayerActive,
-      cards: !startGame ? [] : sortRandomly(this.state.cards)
+      cards: !startGame
+        ? []
+        : sortRandomly(
+            getDubleCards(singleColorCards, this.state.players.length, 2)
+          )
     });
   }
   onInputSubmit(value: { name: string; surname: string }) {
@@ -57,8 +61,7 @@ class App extends React.Component<{}, State> {
       players: [
         ...state.players,
         { id: state.players.length, ...value, active: false }
-      ],
-      cards: getDubleCards(singleColorCards, state.players.length + 1)
+      ]
     }));
   }
   scheduleHideCard() {
@@ -210,9 +213,17 @@ const nextActivePlayerId = (activePlayer: number, players: Player[]) => {
     ? players[0].id
     : nextActivePlayerId;
 };
-const getDubleCards = (singleColorCards: CardsColors, totalPlayers: number) => {
-  const selectedCardsByTotalPlayers = singleColorCards.slice(0, totalPlayers);
+const getDubleCards = (
+  singleColorCards: CardsColors,
+  totalPlayers: number,
+  dificultyLevel: number
+) => {
+  const selectedCardsByTotalPlayers = singleColorCards.slice(
+    0,
+    totalPlayers * dificultyLevel
+  );
   const setDubleCards = (acc: Card[], curr: ColorCard): Card[] => {
+    console.log("accumulated", acc, "cuurent", curr);
     const dubleCard = {
       id: acc.length + 1,
       color: curr.color,
