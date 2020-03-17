@@ -27,29 +27,6 @@ const singleColorCards = [
 type CardsColors = ColorCard[];
 type ColorCard = { color: string };
 
-const getDubleCards = (
-  singleColorCards: CardsColors,
-  playersAmount: number
-) => {
-  const matchedCardByPlayersAmount = singleColorCards.slice(0, playersAmount);
-  const setDubleCards = (acc: Card[], curr: ColorCard): Card[] => {
-    const dubleCard = {
-      id: acc.length + 1,
-      color: curr.color,
-      clicked: false,
-      found: false
-    };
-    return acc.concat(
-      ...[
-        { id: acc.length, color: curr.color, clicked: false, found: false },
-        dubleCard
-      ]
-    );
-  };
-
-  return matchedCardByPlayersAmount.reduce(setDubleCards, []);
-};
-
 class App extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
@@ -148,6 +125,7 @@ class App extends React.Component<{}, State> {
             cards: setFoundCard(toggledCards, filterDisabledCards),
             gameState: {
               ...state.gameState,
+              // gameEnd: setGameEnd(this.state.cards),
               playersResults: addPlayerPoint(
                 state.gameState.playersResults,
                 activePlayer.id,
@@ -185,6 +163,7 @@ class App extends React.Component<{}, State> {
           />
         )}
         <GameStateManager
+          totalPlayers={this.state.players.length}
           gameState={this.state.gameState}
           onGameStart={(gameStart: boolean) =>
             this.handleGameStartState(gameStart)
@@ -197,7 +176,7 @@ class App extends React.Component<{}, State> {
           />
         )}
 
-        {setGameEnd(this.state.cards) && (
+        {this.state.cards.length !== 0 && setGameEnd(this.state.cards) && (
           <GameSummary
             players={this.state.players}
             playersResults={this.state.gameState.playersResults}
@@ -230,6 +209,25 @@ const nextActivePlayerId = (activePlayer: number, players: Player[]) => {
   return nextActivePlayerId >= players.length
     ? players[0].id
     : nextActivePlayerId;
+};
+const getDubleCards = (singleColorCards: CardsColors, totalPlayers: number) => {
+  const selectedCardsByTotalPlayers = singleColorCards.slice(0, totalPlayers);
+  const setDubleCards = (acc: Card[], curr: ColorCard): Card[] => {
+    const dubleCard = {
+      id: acc.length + 1,
+      color: curr.color,
+      clicked: false,
+      found: false
+    };
+    return acc.concat(
+      ...[
+        { id: acc.length, color: curr.color, clicked: false, found: false },
+        dubleCard
+      ]
+    );
+  };
+
+  return selectedCardsByTotalPlayers.reduce(setDubleCards, []);
 };
 
 ReactDOM.render(

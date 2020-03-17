@@ -21,16 +21,22 @@ export type PlayerScoreCards = { color: string }[];
 type GameStateProps = {
   gameState: GameState;
   onGameStart: (value: boolean) => void;
+  totalPlayers: number;
 };
 
 export const GameStateManager = ({
+  totalPlayers,
   gameState,
   onGameStart
 }: GameStateProps) => {
+  const isDisable = totalPlayers === 0;
   return (
     <div>
-      <GameStatePanel onClick={() => onGameStart(!gameState.start)}>
-        {gameState.start ? "Resetart" : "Start"}
+      <GameStatePanel
+        disabled={isDisable}
+        onClick={() => onGameStart(!gameState.start)}
+      >
+        {gameState.start ? "Resart" : "Start"}
       </GameStatePanel>
     </div>
   );
