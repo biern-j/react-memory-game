@@ -2,10 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { PlayerWelcome, Player } from "./components/playerWelcome";
 import { Cards, Card } from "./components/cards";
-import { sumMatrix } from "./helloTS";
-import { GameStateManager, GameState } from "./components/gameStateManager";
+import {
+  GameStateManager,
+  GameState,
+  PlayerResults
+} from "./components/gameStateManager";
 import { GameForm } from "./components/gameForm";
 import { GlobalStyle } from "./components/style";
+import { PlayersTable } from "./components/playersTable";
 
 type State = {
   cards: Card[];
@@ -52,29 +56,59 @@ class App extends React.Component<{}, State> {
       cards: [],
       gameState: {
         start: false,
-        play: false,
+        changedPlayer: true,
+        playersResults: [],
         endGame: false
       }
     };
   }
   handleGameStartState(startGame: boolean) {
-    console.log("startState", startGame);
+    const fistPlayerActive = this.state.players;
+    fistPlayerActive[0] = { ...this.state.players[0], active: true };
     this.setState({
-      gameState: { ...this.state.gameState, start: startGame, play: startGame }
+      gameState: {
+        ...this.state.gameState,
+        start: startGame
+      },
+      players: !startGame ? [] : fistPlayerActive,
+      cards: !startGame ? [] : this.state.cards
     });
   }
   onInputSubmit(value: Player) {
     this.setState((state, props) => ({
-      players: [...state.players, { id: state.players.length + 1, ...value }],
+      players: [...state.players, { id: state.players.length, ...value }],
       cards: getDubleCards(singleColorCards, state.players.length + 1)
     }));
   }
   scheduleHideCard() {
     setTimeout(
       () =>
-        this.setState(state => ({
-          cards: this.undisableClickedCard(state)
-        })),
+        this.setState(state => {
+          const activePlayer = state.players.find(
+            player => player.active === true
+          );
+          const nextActivePlayer = nextActivePlayerId(
+            activePlayer!.id!, // ustawić id, zeby nie był undefined
+            state.players
+          );
+
+          return {
+            cards: this.undisableClickedCard(state),
+            gameState: {
+              ...state.gameState,
+              changedPlayer: !state.gameState.changedPlayer
+            },
+            players: state.players.map(player => {
+              if (player.active) {
+                return { ...player, active: false };
+              }
+              if (player.id === nextActivePlayer) {
+                return { ...player, active: true };
+              }
+              return player;
+            })
+          };
+        }),
       1000
     );
   }
@@ -93,7 +127,7 @@ class App extends React.Component<{}, State> {
     const setFoundCard = (cards: Card[], disabledCards: Card[]) =>
       cards.map((card: Card) =>
         card.id === disabledCards[0].id || card.id === disabledCards[1].id
-          ? { ...card, clicked: card.clicked, found: true }
+          ? { ...card, clicked: !card.clicked, found: true }
           : card
       );
 
@@ -106,8 +140,21 @@ class App extends React.Component<{}, State> {
 
       if (filterDisabledCards.length === 2) {
         if (filterDisabledCards[0].color === filterDisabledCards[1].color) {
+          const activePlayer = state.players.find(
+            player => player.active === true
+          );
+          console.log("activePlayerResults", activePlayer);
+
           return {
-            cards: setFoundCard(toggleClickedCards, filterDisabledCards)
+            cards: setFoundCard(toggleClickedCards, filterDisabledCards),
+            gameState: {
+              ...state.gameState,
+              playersResults: addPlayerPoint(
+                state.gameState.playersResults,
+                activePlayer!.id!, // ustawić id zeby nie było udnefined
+                filterDisabledCards[0]
+              )
+            }
           };
         } else {
           this.scheduleHideCard();
@@ -115,31 +162,34 @@ class App extends React.Component<{}, State> {
       }
 
       return {
-        cards: toggleClickedCards
+        cards: toggleClickedCards,
+        gameState: state.gameState
       };
     });
   }
 
   render() {
-    const matrix = [
-      [1, 2, 3, 4],
-      [1, 2, 3, 4],
-      [1, 2, 3, 4],
-      [1, 2, 3, 4]
-    ];
     console.log(
       "his.state.gameState",
-      this.state.gameState,
-      "Players",
-      this.state.players
+      this.state.players,
+      "this.state.gameState.playersResults",
+      this.state.gameState.playersResults,
+      "results",
+      Object.values(this.state.gameState.playersResults)
     );
 
     return (
       <div>
-        {!this.state.gameState.play && (
+        {!this.state.gameState.start && (
           <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
         )}
         <PlayerWelcome players={this.state.players} />
+        {this.state.gameState.start && (
+          <PlayersTable
+            players={this.state.players}
+            playersResults={this.state.gameState.playersResults}
+          />
+        )}
         <GameStateManager
           gameState={this.state.gameState}
           onGameStart={(gameStart: boolean) =>
@@ -157,4 +207,29 @@ class App extends React.Component<{}, State> {
   }
 }
 
-ReactDOM.render(<><GlobalStyle/><App /></>, document.getElementById("app"));
+const addPlayerPoint = (
+  playerResults: PlayerResults,
+  playerId: number,
+  card: Card
+): PlayerResults => {
+  //mapem: spr czy w playerResults jest id playrId, => find w playerResults => playerResults.results add Card.color
+
+  return {
+    ...playerResults,
+    [playerId]: [...(playerResults[playerId] || []), { color: card.color }]
+  };
+};
+const nextActivePlayerId = (activePlayer: number, players: Player[]) => {
+  const nextActivePlayerId = activePlayer + 1;
+  return nextActivePlayerId > players.length
+    ? players[0].id
+    : nextActivePlayerId;
+};
+
+ReactDOM.render(
+  <>
+    <GlobalStyle />
+    <App />
+  </>,
+  document.getElementById("app")
+);

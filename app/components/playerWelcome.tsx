@@ -4,7 +4,12 @@ import { Welcome } from "./style";
 type PlayersProps = {
   players: Player[];
 };
-export type Player = { id?: number; name: string; surname: string };
+export type Player = {
+  id?: number;
+  name: string;
+  surname: string;
+  active?: boolean;
+};
 
 export function PlayerWelcome({ players }: PlayersProps) {
   return (
