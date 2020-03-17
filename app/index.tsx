@@ -208,8 +208,7 @@ class App extends React.Component<{}, State> {
   }
 }
 
-const sortRandomly = (cards: Card[]) => { const sortRandomly = R.sortBy(i => Math.random());
-  return sortRandomly(cards);
+const sortRandomly = (cards) => { R.sortBy(i => Math.random())(cards);
 };
 
 const addPlayerPoint = (

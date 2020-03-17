@@ -13,6 +13,10 @@ type NewPlayerInputProps = {
   type: string;
 };
 
+type LevelButtonProps = {
+  backgroundLevelButton: { clicked: boolean, color: string };
+};
+
 export const CardButton = styled.button<CardButtonProps>`
   border: 2px solid black;
   margin: 4px;
@@ -53,7 +57,7 @@ export const NewPlayerDataContainer = styled.label<NewPlayerDataContainerProps>`
   width: ${props => (props.primary ? "0" : "auto")};
   padding: ${props => (props.primary ? "0" : "3em")};
   margin: 2vh auto;
-  background: #f39db6};
+  background: #f39db6;
   clear: left;
 `;
 
@@ -73,3 +77,16 @@ export const GameStatePanel = styled.button`
   border-radius: 5%;
   background-color: #fefafa;
 `;
+
+export const LevelButton = styled.button<LevelButtonProps>`
+  border: 0.4em solid pink;
+  margin: 2em;
+  padding: 0.5em 1em;
+  font-size: 2em;
+  color: #6a4162;
+  border-radius: 5%;
+  background-color: ${props => {
+    const { clicked, color } = props.backgroundLevelButton;
+    return clicked ? color : "red";
+  }};
+  `;
