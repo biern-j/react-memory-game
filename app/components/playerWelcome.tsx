@@ -5,10 +5,10 @@ type PlayersProps = {
   players: Player[];
 };
 export type Player = {
-  id?: number;
+  id: number;
   name: string;
   surname: string;
-  active?: boolean;
+  active: boolean;
 };
 
 export function PlayerWelcome({ players }: PlayersProps) {

@@ -76,9 +76,12 @@ class App extends React.Component<{}, State> {
       cards: !startGame ? [] : this.state.cards
     });
   }
-  onInputSubmit(value: Player) {
+  onInputSubmit(value: { name: string; surname: string }) {
     this.setState((state, props) => ({
-      players: [...state.players, { id: state.players.length, ...value }],
+      players: [
+        ...state.players,
+        { id: state.players.length, ...value, active: false }
+      ],
       cards: getDubleCards(singleColorCards, state.players.length + 1)
     }));
   }
@@ -88,9 +91,9 @@ class App extends React.Component<{}, State> {
         this.setState(state => {
           const activePlayer = state.players.find(
             player => player.active === true
-          );
+          )!;
           const nextActivePlayer = nextActivePlayerId(
-            activePlayer!.id!, // ustawić id, zeby nie był undefined
+            activePlayer.id,
             state.players
           );
 
@@ -101,13 +104,10 @@ class App extends React.Component<{}, State> {
               changedPlayer: !state.gameState.changedPlayer
             },
             players: state.players.map(player => {
-              if (player.active) {
-                return { ...player, active: false };
-              }
-              if (player.id === nextActivePlayer) {
-                return { ...player, active: true };
-              }
-              return player;
+              return {
+                ...player,
+                active: player.id === nextActivePlayer
+              };
             })
           };
         }),
@@ -144,7 +144,7 @@ class App extends React.Component<{}, State> {
         if (filterDisabledCards[0].color === filterDisabledCards[1].color) {
           const activePlayer = state.players.find(
             player => player.active === true
-          );
+          )!;
           console.log("activePlayerResults", activePlayer);
 
           return {
@@ -153,7 +153,7 @@ class App extends React.Component<{}, State> {
               ...state.gameState,
               playersResults: addPlayerPoint(
                 state.gameState.playersResults,
-                activePlayer!.id!, // ustawić id zeby nie było udnefined
+                activePlayer.id,
                 filterDisabledCards[0]
               )
             }
@@ -183,7 +183,7 @@ class App extends React.Component<{}, State> {
     return (
       <div>
         {!this.state.gameState.start && (
-          <GameForm onSubmit={(value: Player) => this.onInputSubmit(value)} />
+          <GameForm onSubmit={value => this.onInputSubmit(value)} />
         )}
         <PlayerWelcome players={this.state.players} />
         {this.state.gameState.start && (
@@ -233,7 +233,7 @@ const addPlayerPoint = (
 };
 const nextActivePlayerId = (activePlayer: number, players: Player[]) => {
   const nextActivePlayerId = activePlayer + 1;
-  return nextActivePlayerId > players.length
+  return nextActivePlayerId >= players.length
     ? players[0].id
     : nextActivePlayerId;
 };

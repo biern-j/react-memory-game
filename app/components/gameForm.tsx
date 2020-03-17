@@ -10,7 +10,7 @@ import {
 import { LevelButtons } from "./levelButton";
 
 type GameFormProps = {
-  onSubmit: (value: Player) => void;
+  onSubmit: (value: { name: string; surname: string }) => void;
 };
 
 export const GameForm = ({ onSubmit }: GameFormProps) => {
