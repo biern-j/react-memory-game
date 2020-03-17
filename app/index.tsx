@@ -11,6 +11,7 @@ import { GameForm } from "./components/gameForm";
 import { GlobalStyle } from "./components/style";
 import { PlayersTable } from "./components/playersTable";
 import * as R from "ramda";
+import { GameSummary } from "./components/gameSummary";
 
 type State = {
   cards: Card[];
@@ -203,12 +204,18 @@ class App extends React.Component<{}, State> {
             onClick={(id: number) => this.setToggle(id)}
           />
         )}
+        <GameSummary winnerPlayer={this.state.gameState.playersResults} />
+        {/* {this.state.gameState.endGame && (
+          <GameSummary/>
+        )} */}
       </div>
     );
   }
 }
 
-const sortRandomly = (cards) => { R.sortBy(i => Math.random())(cards);
+const sortRandomly = (cards: Card[]) => {
+  const sortRandomly = R.sortBy(i => Math.random());
+  return sortRandomly(cards);
 };
 
 const addPlayerPoint = (
@@ -216,8 +223,6 @@ const addPlayerPoint = (
   playerId: number,
   card: Card
 ): PlayerResults => {
-  //mapem: spr czy w playerResults jest id playrId, => find w playerResults => playerResults.results add Card.color
-
   return {
     ...playerResults,
     [playerId]: [...(playerResults[playerId] || []), { color: card.color }]
