@@ -6,7 +6,6 @@ export type GameState = {
   start: boolean;
   changedPlayer: boolean;
   playersResults: PlayerResults;
-  endGame: boolean;
 };
 export type PlayerResults = {
   [key in number]?: PlayerScoreCards;

@@ -59,8 +59,7 @@ class App extends React.Component<{}, State> {
       gameState: {
         start: false,
         changedPlayer: true,
-        playersResults: [],
-        endGame: false
+        playersResults: []
       }
     };
   }
@@ -171,14 +170,7 @@ class App extends React.Component<{}, State> {
   }
 
   render() {
-    console.log(
-      "his.state.gameState",
-      this.state.players,
-      "this.state.gameState.playersResults",
-      this.state.gameState.playersResults,
-      "results",
-      Object.values(this.state.gameState.playersResults)
-    );
+    console.log("this.state.gameState.playersResults", this.state.gameState);
 
     return (
       <div>
@@ -204,17 +196,19 @@ class App extends React.Component<{}, State> {
             onClick={(id: number) => this.setToggle(id)}
           />
         )}
-        <GameSummary
-          players={this.state.players}
-          playersResults={this.state.gameState.playersResults}
-        />
-        {/* {this.state.gameState.endGame && (
-          <GameSummary/>
-        )} */}
+
+        {setGameEnd(this.state.cards) && (
+          <GameSummary
+            players={this.state.players}
+            playersResults={this.state.gameState.playersResults}
+          />
+        )}
       </div>
     );
   }
 }
+// if all maped cards fullfill condition card.found then return true
+const setGameEnd = (cards: Card[]) => cards.every(card => card.found);
 
 const sortRandomly = (cards: Card[]) => {
   const sortRandomly = R.sortBy(i => Math.random());
