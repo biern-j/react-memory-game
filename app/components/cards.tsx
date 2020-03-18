@@ -1,6 +1,7 @@
 import * as React from "react";
-import { CardButton } from "./style";
+import { CardButton, CardContainer } from "./cardsStyle";
 interface CardsProps {
+  dificulty: number;
   cards: Card[];
   onClick: any;
 }
@@ -11,7 +12,7 @@ export type Card = {
   found: boolean;
 };
 
-export function Cards({ cards, onClick }: CardsProps) {
+export function Cards({ dificulty, cards, onClick }: CardsProps) {
   const makeButtons = (card: Card) => {
     return (
       <CardButton
@@ -19,11 +20,8 @@ export function Cards({ cards, onClick }: CardsProps) {
         disabled={card.found ? true : card.clicked}
         onClick={() => onClick(card.id)}
         key={card.id}
-      >
-        {card.id}
-        {card.color}
-      </CardButton>
+      />
     );
   };
-  return <div>{cards.map(item => makeButtons(item))}</div>;
+return <CardContainer dificulty={dificulty}>{cards.map(item => makeButtons(item))}</CardContainer>;
 }

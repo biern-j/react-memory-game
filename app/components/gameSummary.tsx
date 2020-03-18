@@ -1,14 +1,17 @@
 import React from "react";
 import { PlayerResults } from "./gameStateManager";
 import { Player } from "./playerWelcome";
+import { GameSummaryPopup, GameSumaryInfo } from "./gameSummaryStyle";
+import { NewGameButton } from "./playersTableStyle";
 import * as R from "ramda";
 
 type GameSummaryProps = {
+  onNewGame: () => void;
   players: Player[];
   playersResults: PlayerResults;
 };
 
-export const GameSummary = ({ players, playersResults }: GameSummaryProps) => {
+export const GameSummary = ({onNewGame, players, playersResults }: GameSummaryProps) => {
   const entries = Object.entries(playersResults);
   const playersPoints = entries.map(playerResult => ({
     playerId: Number(playerResult[0]),
@@ -20,17 +23,22 @@ export const GameSummary = ({ players, playersResults }: GameSummaryProps) => {
   const winnerScore = R.head(sortedPlayers);
 
   return (
-    <div>
-      <div>
-        Game winner:
-        {winnerScore === undefined
-          ? "No winner"
-          : players[winnerScore.playerId].name}
-      </div>
-      <div>
-        Winer points:
-        {winnerScore === undefined ? "No points" : winnerScore.playerPoints}
-      </div>
-    </div>
+    <GameSummaryPopup>
+      <GameSumaryInfo>
+        <h1>Game winner:</h1>
+        <h2>
+          {winnerScore === undefined
+            ? "No winner"
+            : players[winnerScore.playerId].name}
+        </h2>
+        <h3>
+          Winer points:</h3>
+        <p>{winnerScore === undefined ? "No points" : winnerScore.playerPoints}
+        </p>
+        <NewGameButton onClick={() => onNewGame()}>New game</NewGameButton>
+
+      </GameSumaryInfo>
+
+    </GameSummaryPopup>
   );
 };

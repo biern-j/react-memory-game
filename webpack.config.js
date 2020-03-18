@@ -1,7 +1,11 @@
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
+
 module.exports = {
+  devServer: {
+    host: '0.0.0.0',
+},
   devtool: "source-map",
   resolve: {
     extensions: [".js", ".ts", ".tsx"]
@@ -32,7 +36,7 @@ module.exports = {
       { test: /\.css$/, use: ["style-loader", "css-loader"] }
     ]
   },
-  mode: "development",
+  mode: "production",
   plugins: [
     new HTMLWebpackPlugin({
       template: "app/index.html"
