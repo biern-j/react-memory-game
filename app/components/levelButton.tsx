@@ -1,8 +1,9 @@
 import * as React from "react";
-import { LevelButton } from "./style";
-interface LevelButtonProps {
+import { LevelInput } from "./style";
+type LevelInputProps = {
   levelButtons: GameDifficultyLevel[];
   ocClick: (value: GameDifficultyLevel) => void;
+  
 }
 // export type Level = {
 //   color: string;
@@ -14,12 +15,13 @@ export type GameDifficultyLevel = {
   choosen: boolean;
 };
 
-export function LevelButtons({ levelButtons, ocClick }: LevelButtonProps) {
+export function LevelButtons({levelButtons, ocClick }: LevelInputProps) {
+
   const makeButtons = (level: GameDifficultyLevel) => {
     return (
-      <LevelButton onClick={() => ocClick(level)} key={level.levelTitle}>
+      <LevelInput type="radio" value={level.levelTitle} checked={false} onClick={() => ocClick(level)} key={level.levelTitle}>
         {level.levelTitle}
-      </LevelButton>
+      </LevelInput>
     );
   };
   return <div>{levelButtons.map(item => makeButtons(item))}</div>;

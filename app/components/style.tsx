@@ -78,7 +78,7 @@ export const GameStatePanel = styled.button`
   background-color: #fefafa;
 `;
 
-export const LevelButton = styled.button`
+export const LevelInput = styled.input`
   border: 0.4em solid pink;
   margin: 2em;
   padding: 0.5em 1em;
