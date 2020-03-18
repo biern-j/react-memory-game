@@ -2,32 +2,41 @@ import * as React from "react";
 import { LevelInput } from "./style";
 type LevelInputProps = {
   levelButtons: GameDifficultyLevel[];
-  ocClick: (value: GameDifficultyLevel) => void;
-  
-}
-// export type Level = {
-//   color: string;
-//   clicked: boolean;
-// };
+  onClick: (value: string) => void;
+};
+
 export type GameDifficultyLevel = {
   levelTitle: string;
   multiple: number;
   choosen: boolean;
 };
 
-export function LevelButtons({levelButtons, ocClick }: LevelInputProps) {
-
+export function LevelButtons({ levelButtons, onClick }: LevelInputProps) {
   const makeButtons = (level: GameDifficultyLevel) => {
+    console.log("level in map", level);
     return (
-      <LevelInput type="radio" value={level.levelTitle} checked={false} onClick={() => ocClick(level)} key={level.levelTitle}>
+      <label key={level.levelTitle}>
         {level.levelTitle}
-      </LevelInput>
+        <LevelInput
+          name="Diffivultylevel"
+          type="radio"
+          value={level.levelTitle}
+          checked={level.choosen} // true /false
+          onChange={e => onClick(e.target.value)}
+        />
+      </label>
     );
   };
-  return <div>{levelButtons.map(item => makeButtons(item))}</div>;
+  return <form>{levelButtons.map(item => makeButtons(item))}</form>;
 }
 
 // Dlaczego "void":
 // const foo1 = () => "fuu";
 // const foo: void = foo1; // () => "fuu"
 // const fooGetValueFromFoo1: string = foo1(); // "fuu"
+
+{
+  /* <input type="radio" value="option1" 
+                      checked={this.state.selectedOption === 'option1'} 
+                      onChange={this.handleOptionChange} /> */
+}

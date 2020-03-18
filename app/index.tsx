@@ -48,12 +48,13 @@ class App extends React.Component<{}, State> {
       ]
     };
   }
-  setLevelState(chosenLevel: GameDifficultyLevel) {
+  setLevelState(chosenLevel: string) {
+    console.log("chosenLevel", chosenLevel);
     this.setState({
       gameDiffculty: this.state.gameDiffculty.map(levelDif =>
-        levelDif.levelTitle === chosenLevel.levelTitle
+        levelDif.levelTitle === chosenLevel
           ? { ...levelDif, choosen: true }
-          : levelDif
+          : { ...levelDif, choosen: false }
       )
     });
   }
@@ -184,7 +185,7 @@ class App extends React.Component<{}, State> {
             <GameForm onSubmit={value => this.onInputSubmit(value)} />
             <LevelButtons
               levelButtons={this.state.gameDiffculty} // lista z poziomami trudności
-              ocClick={level => this.setLevelState(level)}
+              onClick={(level: string) => this.setLevelState(level)}
             />
           </div>
         )}
@@ -193,6 +194,7 @@ class App extends React.Component<{}, State> {
           <PlayersTable
             players={this.state.players}
             playersResults={this.state.gameState.playersResults}
+            difficultyLevel={this.state.gameDiffculty}
           />
         )}
         <GameStateManager
