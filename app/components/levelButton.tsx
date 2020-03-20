@@ -1,27 +1,42 @@
 import * as React from "react";
-import { LevelButton } from "./style";
-interface LevelButtonProps {
-  levelButtons: Level[];
-  onClick: any;
-}
-export type Level = {
-  id: number;
-  color: string;
-  clicked: boolean;
+import { LevelInput } from "./style";
+type LevelInputProps = {
+  levelButtons: GameDifficultyLevel[];
+  onClick: (value: string) => void;
 };
 
-export function LevelButtons({ levelButtons, onClick }: LevelButtonProps) {
-  const makeButtons = (level: Level) => {
+export type GameDifficultyLevel = {
+  levelTitle: string;
+  multiple: number;
+  choosen: boolean;
+};
+
+export function LevelButtons({ levelButtons, onClick }: LevelInputProps) {
+  const makeButtons = (level: GameDifficultyLevel) => {
+    console.log("level in map", level);
     return (
-      <LevelButton
-        backgroundLevelButton={level}
-        onClick={() => onClick(level.id)}
-        key={level.id}
-      >
-        {level.id}
-        {level.color}
-      </LevelButton>
+      <label key={level.levelTitle}>
+        {level.levelTitle}
+        <LevelInput
+          name="Diffivultylevel"
+          type="radio"
+          value={level.levelTitle}
+          checked={level.choosen} // true /false
+          onChange={e => onClick(e.target.value)}
+        />
+      </label>
     );
   };
-  return <div>{levelButtons.map(item => makeButtons(item))}</div>;
+  return <form>{levelButtons.map(item => makeButtons(item))}</form>;
+}
+
+// Dlaczego "void":
+// const foo1 = () => "fuu";
+// const foo: void = foo1; // () => "fuu"
+// const fooGetValueFromFoo1: string = foo1(); // "fuu"
+
+{
+  /* <input type="radio" value="option1" 
+                      checked={this.state.selectedOption === 'option1'} 
+                      onChange={this.handleOptionChange} /> */
 }

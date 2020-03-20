@@ -12,12 +12,15 @@ import { GlobalStyle } from "./components/style";
 import { PlayersTable } from "./components/playersTable";
 import * as R from "ramda";
 import { GameSummary } from "./components/gameSummary";
+import { LevelButtons, GameDifficultyLevel } from "./components/levelButton";
 
 type State = {
   cards: Card[];
   players: Player[];
   gameState: GameState;
+  gameDiffculty: GameDifficultyLevel[];
 };
+
 const singleColorCards = [
   { color: "red" },
   { color: "green" },
@@ -37,12 +40,30 @@ class App extends React.Component<{}, State> {
         start: false,
         changedPlayer: true,
         playersResults: []
-      }
+      },
+      gameDiffculty: [
+        { levelTitle: "easy", multiple: 2, choosen: false },
+        { levelTitle: "middle", multiple: 3, choosen: false },
+        { levelTitle: "hard", multiple: 4, choosen: false }
+      ]
     };
+  }
+  setLevelState(chosenLevel: string) {
+    console.log("chosenLevel", chosenLevel);
+    this.setState({
+      gameDiffculty: this.state.gameDiffculty.map(levelDif =>
+        levelDif.levelTitle === chosenLevel
+          ? { ...levelDif, choosen: true }
+          : { ...levelDif, choosen: false }
+      )
+    });
   }
   handleGameStartState(startGame: boolean) {
     const fistPlayerActive = this.state.players;
     fistPlayerActive[0] = { ...this.state.players[0], active: true };
+    const levelDificulty = this.state.gameDiffculty.find(
+      level => level.choosen === true
+    )!;
     this.setState({
       gameState: {
         ...this.state.gameState,
@@ -52,7 +73,11 @@ class App extends React.Component<{}, State> {
       cards: !startGame
         ? []
         : sortRandomly(
-            getDubleCards(singleColorCards, this.state.players.length, 2)
+            getDubleCards(
+              singleColorCards,
+              this.state.players.length,
+              levelDificulty.multiple
+            )
           )
     });
   }
@@ -151,18 +176,25 @@ class App extends React.Component<{}, State> {
   }
 
   render() {
-    console.log("this.state.gameState.playersResults", this.state.gameState);
+    console.log("level", this.state.gameDiffculty);
 
     return (
       <div>
         {!this.state.gameState.start && (
-          <GameForm onSubmit={value => this.onInputSubmit(value)} />
+          <div>
+            <GameForm onSubmit={value => this.onInputSubmit(value)} />
+            <LevelButtons
+              levelButtons={this.state.gameDiffculty} // lista z poziomami trudności
+              onClick={(level: string) => this.setLevelState(level)}
+            />
+          </div>
         )}
         <PlayerWelcome players={this.state.players} />
         {this.state.gameState.start && (
           <PlayersTable
             players={this.state.players}
             playersResults={this.state.gameState.playersResults}
+            difficultyLevel={this.state.gameDiffculty}
           />
         )}
         <GameStateManager
