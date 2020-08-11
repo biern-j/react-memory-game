@@ -31,10 +31,6 @@ export const GameSummary = ({onNewGame, players, playersResults }: GameSummaryPr
             ? "No winner"
             : players[winnerScore.playerId].name}
         </h2>
-        <h3>
-          Winer points:</h3>
-        <p>{winnerScore === undefined ? "No points" : winnerScore.playerPoints}
-        </p>
         <NewGameButton onClick={() => onNewGame()}>New game</NewGameButton>
 
       </GameSumaryInfo>
