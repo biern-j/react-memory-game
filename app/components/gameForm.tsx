@@ -1,37 +1,72 @@
 import React, { useState } from "react";
 
-import { NewPlayerWraper, NewPlayerInput, NewPlayerName } from "./style";
+import { NewPlayerForm, NewPlayerLabel, NewPlayerInput, NewPlayerInputSubmintButton, NewPlayerBox, NewPlayerInputSubmintButtonBox } from './gameFormStyle';
+import { Card } from './cards';
+import { PlayerWelcome, Player } from './playerWelcome';
+import { GameStateManager, GameState } from './gameStateManager';
+import { LevelButtons, GameDifficultyLevel } from './levelButton';
 
+type State = {
+  cards: Card[]
+  players: Player[]
+  gameState: GameState
+  gameDiffculty: GameDifficultyLevel[]
+};
 type GameFormProps = {
-  onSubmit: (value: { name: string; surname: string }) => void;
+  onSubmit: (value: { name: string; }) => void;
+  gameState: State;
+  onLevelSetup: (level: string) => void;
+  onHandleGameStart: (start: boolean) => void;
+  onRemovePlayer: (id: number) => void;
 };
 
-export const GameForm = ({ onSubmit }: GameFormProps) => {
-  const [value, onChange] = useState({ name: "", surname: "" });
+
+
+export const GameForm = ({ onSubmit, gameState, onLevelSetup, onHandleGameStart, onRemovePlayer }: GameFormProps) => {
+
+  const [value, onChange] = useState({ name: "" });
 
   return (
-    <form
-      onSubmit={e => {
-        e.preventDefault();
-        onChange({ name: "", surname: "" });
-        onSubmit(value);
-        console.log("e", e);
-      }}
-    >
-      <NewPlayerWraper primary={false}>
-        <NewPlayerName>Name:</NewPlayerName>
+    <NewPlayerForm>
+      <NewPlayerBox>
         <NewPlayerInput
           value={value.name}
-          type="text"
+          defaultValue=""
+          placeholder="New Player Name"
           name="name"
           onChange={e => onChange({ ...value, name: e.target.value })}
           required
+          disabled={gameState.players.length >= 4}
         />
-      </NewPlayerWraper>
 
-      <NewPlayerWraper primary={true}>
-        <NewPlayerInput type="submit" value="Submit" />
-      </NewPlayerWraper>
-    </form>
+        <NewPlayerInputSubmintButtonBox>
+          <NewPlayerInputSubmintButton disabled={gameState.players.length >= 4} onClick={(e) => {
+             e.preventDefault();
+             onSubmit(value);
+             onChange({name: ""})
+             console.log("eh", e);
+          }}>Add player</NewPlayerInputSubmintButton>
+        </NewPlayerInputSubmintButtonBox>
+      </NewPlayerBox>
+      
+      <h2>Player:</h2>
+      <PlayerWelcome players={gameState.players} onRemovePlayer={(id) => onRemovePlayer(id)}/>
+
+      <LevelButtons
+        levelButtons={gameState.gameDiffculty} // lista z poziomami trudności
+        onClick={(level: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+          e.preventDefault();
+          console.log("ah", e);
+          onLevelSetup(level)
+        }}
+      />
+      <GameStateManager
+        totalPlayers={gameState.players.length}
+        gameState={gameState.gameState}
+        onGameStart={(gameStart: boolean) =>
+          onHandleGameStart(gameStart)
+        }
+      />
+    </NewPlayerForm>
   );
 };

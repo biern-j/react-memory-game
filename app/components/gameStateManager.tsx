@@ -1,6 +1,6 @@
 import React from "react";
 
-import { GameStatePanel } from "./style";
+import { GameStateButton } from "./gameStateManagerStyle";
 
 export type GameState = {
   start: boolean;
@@ -31,13 +31,12 @@ export const GameStateManager = ({
 }: GameStateProps) => {
   const isDisable = totalPlayers === 0;
   return (
-    <div>
-      <GameStatePanel
-        disabled={isDisable}
-        onClick={() => onGameStart(!gameState.start)}
-      >
-        {gameState.start ? "Resart" : "Start"}
-      </GameStatePanel>
-    </div>
+      <GameStateButton
+      disabled={isDisable}
+      onClick={() => onGameStart(!gameState.start)}
+    >
+      {gameState.start ? "Restart" : "Start"}
+    </GameStateButton>
+    
   );
 };

@@ -1,8 +1,8 @@
 import * as React from "react";
-import { LevelInput } from "./style";
+import { LevelInput, LevelBox, LevelForm } from "./levelButtonStyle";
 type LevelInputProps = {
   levelButtons: GameDifficultyLevel[];
-  onClick: (value: string) => void;
+  onClick: (value: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 export type GameDifficultyLevel = {
@@ -11,32 +11,15 @@ export type GameDifficultyLevel = {
   choosen: boolean;
 };
 
-export function LevelButtons({ levelButtons, onClick }: LevelInputProps) {
-  const makeButtons = (level: GameDifficultyLevel) => {
-    console.log("level in map", level);
-    return (
-      <label key={level.levelTitle}>
-        {level.levelTitle}
-        <LevelInput
-          name="Diffivultylevel"
-          type="radio"
-          value={level.levelTitle}
-          checked={level.choosen} // true /false
-          onChange={e => onClick(e.target.value)}
-        />
-      </label>
-    );
-  };
-  return <form>{levelButtons.map(item => makeButtons(item))}</form>;
-}
+export const LevelButtons = ({ levelButtons, onClick }: LevelInputProps) =>
+<LevelForm>{levelButtons.map(item =>
+      <LevelBox key={item.levelTitle}>
+     
+     <LevelInput selectedDifficulty={item.choosen}
+      onClick={(e) => onClick(item.levelTitle, e)}
+     >
+     {item.levelTitle}
+     </LevelInput>
+     </LevelBox>)}
+     </LevelForm>;
 
-// Dlaczego "void":
-// const foo1 = () => "fuu";
-// const foo: void = foo1; // () => "fuu"
-// const fooGetValueFromFoo1: string = foo1(); // "fuu"
-
-{
-  /* <input type="radio" value="option1" 
-                      checked={this.state.selectedOption === 'option1'} 
-                      onChange={this.handleOptionChange} /> */
-}

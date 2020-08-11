@@ -1,22 +1,25 @@
-import React from "react";
-import { NewPlayerWelcome } from "./style";
+import React from 'react'
+import { NewPlayerWelcome, NewPlayer, NewPlayerList, RemovePlayerButton } from './playerWelcomeStyle'
 
 type PlayersProps = {
-  players: Player[];
-};
+  players: Player[],
+  onRemovePlayer: (id: number) => void
+}
 export type Player = {
-  id: number;
-  name: string;
-  surname: string;
-  active: boolean;
-};
+  id: number
+  name: string
+  active: boolean
+}
 
-export function PlayerWelcome({ players }: PlayersProps) {
+export function PlayerWelcome({ players, onRemovePlayer }: PlayersProps) {
   return (
     <NewPlayerWelcome>
-      {players.map(player => (
-        <div key={player.id}> Hello: {`${player.name} ${player.surname}`}</div>
-      ))}
+       <NewPlayerList>
+      {players.map(player => <NewPlayer key={player.id}> 
+      {player.name}
+        <RemovePlayerButton onClick={() => onRemovePlayer(player.id)}>X</RemovePlayerButton>
+      </NewPlayer>)}
+       </NewPlayerList>
     </NewPlayerWelcome>
-  );
+  )
 }
