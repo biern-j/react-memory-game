@@ -1,6 +1,6 @@
 context('Actions', () => {
     beforeEach(() => {
-      cy.visit('http://localhost:8080/')
+      cy.visit('http://localhost:5000')
     })
     it('Add player', () => {
         cy.get('[data-cy=new-player-input]').type("Jola");

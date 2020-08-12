@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "netlify-cli": "^2.59.0",
-    "ramda": "^0.27.0"
+    "ramda": "^0.27.0",
+    "serve": "^11.3.2"
   }
 }
