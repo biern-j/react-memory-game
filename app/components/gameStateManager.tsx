@@ -32,6 +32,7 @@ export const GameStateManager = ({
   const isDisable = totalPlayers === 0;
   return (
       <GameStateButton
+      data-cy="start-game"
       disabled={isDisable}
       onClick={() => onGameStart(!gameState.start)}
     >

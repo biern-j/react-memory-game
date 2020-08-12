@@ -30,6 +30,7 @@ export const GameForm = ({ onSubmit, gameState, onLevelSetup, onHandleGameStart,
     <NewPlayerForm>
       <NewPlayerBox>
         <NewPlayerInput
+        data-cy="new-player-input"
           value={value.name}
           defaultValue=""
           placeholder="New Player Name"
@@ -40,7 +41,7 @@ export const GameForm = ({ onSubmit, gameState, onLevelSetup, onHandleGameStart,
         />
 
         <NewPlayerInputSubmintButtonBox>
-          <NewPlayerInputSubmintButton disabled={gameState.players.length >= 4} onClick={(e) => {
+          <NewPlayerInputSubmintButton data-cy="submit-player" disabled={gameState.players.length >= 4} onClick={(e) => {
              e.preventDefault();
              onSubmit(value);
              onChange({name: ""})
@@ -53,7 +54,7 @@ export const GameForm = ({ onSubmit, gameState, onLevelSetup, onHandleGameStart,
       <PlayerWelcome players={gameState.players} onRemovePlayer={(id) => onRemovePlayer(id)}/>
 
       <LevelButtons
-        levelButtons={gameState.gameDiffculty} // lista z poziomami trudności
+        levelButtons={gameState.gameDiffculty}
         onClick={(level: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
           e.preventDefault();
           console.log("ah", e);
