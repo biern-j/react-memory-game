@@ -11,7 +11,8 @@
   },
   "scripts": {
     "create": "webpack",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "cy:run": "cypress run -- --spec \"cypress/integration/examples/gameForm/gameFormTest.ts\""
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
   },
   "dependencies": {
     "netlify-cli": "^2.59.0",
-    "ramda": "^0.27.0"
+    "ramda": "^0.27.0",
+    "serve": "^11.3.2"
   }
 }
