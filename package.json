@@ -12,12 +12,8 @@
   "scripts": {
     "create": "webpack",
     "start": "webpack-dev-server",
-<<<<<<< HEAD
-    "cy:run": "cypress run --spec \"cypress/integration/examples/gameForm/gameFormTest.ts\""
-=======
-    "cy:run": "cypress run -- --spec \"cypress/integration/examples/gameForm/gameFormTest.ts\""
->>>>>>> cbea19244d2851682662ebd47b2b71a490726200
-  },
+    "cy:run": "cypress run"
+ },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jolawro/react-memory-game.git"
