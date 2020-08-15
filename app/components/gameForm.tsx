@@ -57,7 +57,6 @@ export const GameForm = ({
               e.preventDefault();
               onSubmit(value);
               onChange({ name: "" });
-              console.log("eh", e);
             }}
           >
             Add player
@@ -78,7 +77,6 @@ export const GameForm = ({
           e: React.MouseEvent<HTMLButtonElement, MouseEvent>
         ) => {
           e.preventDefault();
-          console.log("ah", e);
           onLevelSetup(level);
         }}
       />
