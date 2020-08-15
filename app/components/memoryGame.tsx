@@ -35,17 +35,21 @@ export const MemoryGame = ({
         onGameRestart={onGameRestart}
         players={gameInfo.players}
         playersResults={gameInfo.gameState.playersResults}
-        difficultyLevel={gameInfo.gameDiffculty}
+        difficultyLevel={gameInfo.gameDifficulty}
       />
     )}
     <Cards
-      totalCard={
-        gameInfo.gameDiffculty.find((level) => level.choosen)!.multiple *
-        gameInfo.players.length *
-        2
-      }
+      totalCard={getTotalCardAmount(
+        gameInfo.gameDifficulty,
+        gameInfo.players.length
+      )}
       cards={gameInfo.cards}
       onClick={(id: number) => onSetToggle(id)}
     />
   </MemoryGameView>
 );
+
+const getTotalCardAmount = (
+  gameDifficulty: State["gameDifficulty"],
+  playersAmount: number
+) => gameDifficulty.find((level) => level.chosen)!.multiple * playersAmount * 2;
