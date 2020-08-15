@@ -13,11 +13,6 @@ export type PlayerResults = {
 
 export type PlayerScoreCards = { color: string }[];
 
-// x = {
-//   1: [],
-//   3: [{}]
-// }
-
 type GameStateProps = {
   gameState: GameState;
   onGameStart: (value: boolean) => void;
@@ -27,17 +22,16 @@ type GameStateProps = {
 export const GameStateManager = ({
   totalPlayers,
   gameState,
-  onGameStart
+  onGameStart,
 }: GameStateProps) => {
   const isDisable = totalPlayers === 0;
   return (
-      <GameStateButton
+    <GameStateButton
       data-cy="start-game"
       disabled={isDisable}
       onClick={() => onGameStart(!gameState.start)}
     >
       {gameState.start ? "Restart" : "Start"}
     </GameStateButton>
-    
   );
 };
