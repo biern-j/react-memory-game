@@ -1,10 +1,12 @@
 import * as React from "react";
 import { CardButton, CardContainer } from "./cardsStyle";
-interface CardsProps {
+import { type } from "cypress/types/jquery";
+
+type CardsProps = {
   dificulty: number;
   cards: Card[];
-  onClick: any;
-}
+  onClick: (id: number) => void;
+};
 export type Card = {
   id: number;
   color: string;
@@ -13,15 +15,18 @@ export type Card = {
 };
 
 export function Cards({ dificulty, cards, onClick }: CardsProps) {
-  const makeButtons = (card: Card) => {
-    return (
-      <CardButton
-        backgroundColorCard={card}
-        disabled={card.found ? true : card.clicked}
-        onClick={() => onClick(card.id)}
-        key={card.id}
-      />
-    );
-  };
-return <CardContainer dificulty={dificulty}>{cards.map(item => makeButtons(item))}</CardContainer>;
+  const makeButtons = (card: Card) => (
+    <CardButton
+      backgroundColorCard={card}
+      disabled={card.found ? true : card.clicked}
+      onClick={() => onClick(card.id)}
+      key={card.id}
+    />
+  );
+
+  return (
+    <CardContainer dificulty={dificulty}>
+      {cards.map((item) => makeButtons(item))}
+    </CardContainer>
+  );
 }

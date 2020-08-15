@@ -13,7 +13,7 @@
     "create": "webpack",
     "start": "webpack-dev-server",
     "cy:run": "cypress run"
- },
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jolawro/react-memory-game.git"
@@ -37,6 +37,7 @@
     "css-loader": "^3.4.2",
     "cypress": "^4.12.1",
     "html-webpack-plugin": "^3.2.0",
+    "prettier": "^2.0.5",
     "ramda": "^0.27.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
