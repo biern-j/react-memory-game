@@ -12,7 +12,9 @@
   "scripts": {
     "create": "webpack",
     "start": "webpack-dev-server",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "deploy:test": "npm run create & npx netlify deploy --dir=dist",
+    "deploy:prod": "npx netlify deploy --dir=dist --prod"
   },
   "repository": {
     "type": "git",
