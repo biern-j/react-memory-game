@@ -30,11 +30,12 @@ body {
     box-sizing: border-box;
     background-color: #5A809E;
   }
-  
+
 h1 {
   margin: 3rem 0;
   font-weight: 1000;
   color: #7c79a2;
+  text-align: center;
 }
 h2 {
   font-weight: 900;
