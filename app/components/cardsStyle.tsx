@@ -1,8 +1,8 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes } from "styled-components";
 
 type CardButtonProps = {
-  backgroundColorCard: { clicked: boolean; found: boolean; color: string }
-}
+  backgroundColorCard: { clicked: boolean; found: boolean; color: string };
+};
 
 const findingAffirmation = keyframes`
     0% {
@@ -13,71 +13,65 @@ const findingAffirmation = keyframes`
         opacity: 1;
         transform: scale(1);
     }
-`
-const countCardPerRow = (dificulty: number) => {
+`;
+const countCardPerRow = (totalCard: number) => {
   //hard 4 os
-  if (dificulty === 32) {
-    
+  if (totalCard === 32) {
     return `
     grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
     `;
   }
   // hard 3 os: 3 * 4 * 2 = 24
-  if (dificulty === 24) {
+  //medium 4os
+  if (totalCard === 24) {
     return `
     grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
     `;
   }
   // hard 2 os: 2 * 4 * 2 = 16
-  if (dificulty === 16) {
+  if (totalCard === 16) {
     return `
     grid-template-columns: 3fr 3fr 3fr 3fr 3fr 3fr; 
     `;
   }
-  //medium 4os
-  if (dificulty === 24) {
+  // medium 3 os: 3 * 3 * 2 = 18
+  if (totalCard === 18) {
     return `
-    grid-template-columns: 4fr 4fr 4fr 4fr 4fr 4fr 4fr 4fr; 
-    `;
-  }
-    // medium 3 os: 3 * 3 * 2 = 18
-    if (dificulty === 18) {
-      return `
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; 
       `;
-    }
-    // medium 2 os: 2 * 3 * 2 = 12
-    if (dificulty === 12) {
-      return `
+  }
+  // medium 2 os: 2 * 3 * 2 = 12
+  if (totalCard === 12) {
+    return `
       grid-template-columns:1fr 1fr 1fr 1fr; 
       `;
-    }
-     // medium 1 os: 3 * 2 = 6
-     if (dificulty === 6) {
-      return `
+  }
+  // medium 1 os: 3 * 2 = 6
+  if (totalCard === 6) {
+    return `
       grid-template-columns:1fr 1fr 1fr 1fr; 
       `;
-    }
-// easy 4 os
-  if (dificulty === 16) {
+  }
+  // easy 4 os
+  if (totalCard === 16) {
     return `
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; 
     `;
   }
   // easy 3 os: 3 * 2 * 2 = 12
-  if (dificulty === 12) {
+  if (totalCard === 12) {
     return `
     grid-template-columns:1fr 1fr 1fr 1fr;   
     `;
   }
   // easy 2 os: 2 * 2 * 2 = 8
-  if (dificulty === 8) {
+  if (totalCard === 8) {
     return `
     grid-template-columns:3fr 3fr 3fr; 
     `;
   }
-   // easy 1 os: 2 * 2 = 4
-   if (dificulty === 4) {
+  // easy 1 os: 2 * 2 = 4
+  if (totalCard === 4) {
     return `
     grid-template-columns: 1fr 1fr 1fr 1fr;
     * {
@@ -86,36 +80,32 @@ const countCardPerRow = (dificulty: number) => {
     } 
     `;
   }
+};
 
-}
-
-export const CardContainer = styled.div<{ dificulty: number }>`
-  width: 80vw;
-  height: 80vh;
+export const CardContainer = styled.div<{ totalCard: number }>`
   text-align: center;
   display: grid;
-  ${({dificulty}) => countCardPerRow(dificulty)}
+  ${({ totalCard }) => countCardPerRow(totalCard)}
   column-gap: 5px;
   row-gap: 5px;
   align-items: center;
   justify-items: center;
-  align-self: stretch;
   * {
     width: 20rem;
     height: 20rem;
   }
-`
+`;
 export const CardButton = styled.button<CardButtonProps>`
-  border: 2px solid #F57D7C;
+  border: 2px solid #f57d7c;
   border-radius: 10px;
   ${(props) => {
-    const { clicked, found, color } = props.backgroundColorCard
+    const { clicked, found, color } = props.backgroundColorCard;
     return clicked || found
       ? `
       background-image: url(${color}); 
       background-repeat: no-repeat; 
       background-size: cover;      
       `
-      : 'background-color: #FEE4C4;'
+      : "background-color: #FEE4C4;";
   }};
-`
+`;

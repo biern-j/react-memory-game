@@ -3,7 +3,7 @@ import { CardButton, CardContainer } from "./cardsStyle";
 import { type } from "cypress/types/jquery";
 
 type CardsProps = {
-  dificulty: number;
+  totalCard: number;
   cards: Card[];
   onClick: (id: number) => void;
 };
@@ -14,7 +14,7 @@ export type Card = {
   found: boolean;
 };
 
-export function Cards({ dificulty, cards, onClick }: CardsProps) {
+export function Cards({ totalCard, cards, onClick }: CardsProps) {
   const makeButtons = (card: Card) => (
     <CardButton
       backgroundColorCard={card}
@@ -25,7 +25,7 @@ export function Cards({ dificulty, cards, onClick }: CardsProps) {
   );
 
   return (
-    <CardContainer dificulty={dificulty}>
+    <CardContainer totalCard={totalCard}>
       {cards.map((item) => makeButtons(item))}
     </CardContainer>
   );
