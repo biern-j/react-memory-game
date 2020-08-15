@@ -1,8 +1,11 @@
 import React from "react";
 
-import { PlayerResults, PlayerScoreCards } from "./gameStateManager";
-import { Player } from "./playerWelcome";
-import { GameDifficultyLevel } from "./levelButton";
+import {
+  PlayerResults,
+  PlayerScoreCards,
+} from "../gameStateManager/gameStateManager";
+import { Player } from "../playerWelcome/playerWelcome";
+import { GameDifficultyLevel } from "../levelButton/levelButton";
 import {
   PlayerTableContainer,
   PlayerName,

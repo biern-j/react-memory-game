@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "../style";
+import { Button } from "../../style";
 
 export const PlayerTableContainer = styled.div`
   margin-bottom: 1rem;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { device } from "../RWD";
+import { device } from "../../RWD";
 
 export const NewPlayerForm = styled.form`
   margin: 1rem 5rem;

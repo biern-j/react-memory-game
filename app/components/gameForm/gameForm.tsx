@@ -6,14 +6,14 @@ import {
   NewPlayerInputSubmitButton,
   NewPlayerBox,
   NewPlayerInputSubmitButtonBox,
-} from "./gameForm/gameFormStyle";
-import { Card } from "./cards";
-import { PlayerWelcome, Player } from "./playerWelcome";
+} from "./gameFormStyle";
+import { Card } from "../cards/cards";
+import { PlayerWelcome, Player } from "../playerWelcome/playerWelcome";
 import {
   GameStateManager,
   GameState,
-} from "./gameStateManager/gameStateManager";
-import { LevelButtons, GameDifficultyLevel } from "./levelButton";
+} from "../gameStateManager/gameStateManager";
+import { LevelButtons, GameDifficultyLevel } from "../levelButton/levelButton";
 
 type State = {
   cards: Card[];

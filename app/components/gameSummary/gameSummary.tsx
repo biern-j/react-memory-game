@@ -1,11 +1,8 @@
 import React from "react";
-import { PlayerResults } from "./gameStateManager/gameStateManager";
-import { Player } from "./playerWelcome";
-import {
-  GameSummaryPopup,
-  GameSummaryInfo,
-} from "./gameSummary/gameSummaryStyle";
-import { NewGameButton } from "./playerTable/playersTableStyle";
+import { PlayerResults } from "../gameStateManager/gameStateManager";
+import { Player } from "../playerWelcome/playerWelcome";
+import { GameSummaryPopup, GameSummaryInfo } from "./gameSummaryStyle";
+import { NewGameButton } from "../playerTable/playersTableStyle";
 import * as R from "ramda";
 
 type GameSummaryProps = {

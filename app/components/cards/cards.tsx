@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CardButton, CardContainer } from "./cards/cardsStyle";
+import { CardButton, CardContainer } from "./cardsStyle";
 
 type CardsProps = {
   totalCard: number;

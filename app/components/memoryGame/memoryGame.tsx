@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Cards, Card } from "./cards/cards";
-import { PlayersTable } from "./playerTable/playersTable";
-import { State } from "../index";
-import { MemoryGameView } from "./memoryGame/memoryGameStyle";
-import { GameSummary } from "./gameSummary/gameSummary";
+import { Cards, Card } from "../cards/cards";
+import { PlayersTable } from "../playerTable/playersTable";
+import { State } from "../../index";
+import { MemoryGameView } from "./memoryGameStyle";
+import { GameSummary } from "../gameSummary/gameSummary";
 
 type MemoryGameType = {
   onNewGame: () => void;

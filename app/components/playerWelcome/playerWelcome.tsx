@@ -4,7 +4,7 @@ import {
   NewPlayer,
   NewPlayerList,
   RemovePlayerButton,
-} from "./playerWelcome/playerWelcomeStyle";
+} from "./playerWelcomeStyle";
 
 type PlayersProps = {
   players: Player[];

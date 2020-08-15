@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  LevelInput,
-  LevelBox,
-  LevelForm,
-} from "./levelButton/levelButtonStyle";
+import { LevelInput, LevelBox, LevelForm } from "./levelButtonStyle";
 type LevelInputProps = {
   levelButtons: GameDifficultyLevel[];
   onClick: (

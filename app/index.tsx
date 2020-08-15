@@ -1,13 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Player } from "./components/playerWelcome";
-import { Card } from "./components/cards";
-import { GameState, PlayerResults } from "./components/gameStateManager";
-import { GameForm } from "./components/gameForm";
+import { Player } from "./components/playerWelcome/playerWelcome";
+import { Card } from "./components/cards/cards";
+import {
+  GameState,
+  PlayerResults,
+} from "./components/gameStateManager/gameStateManager";
+import { GameForm } from "./components/gameForm/gameForm";
 import { GlobalStyle, GameContainer, GameStart } from "./style";
 import * as R from "ramda";
-import { GameDifficultyLevel } from "./components/levelButton";
-import { MemoryGame } from "./components/memoryGame";
+import { GameDifficultyLevel } from "./components/levelButton/levelButton";
+import { MemoryGame } from "./components/memoryGame/memoryGame";
 
 export type State = {
   cards: Card[];
@@ -259,8 +262,6 @@ const getDoubleCards = async (
     )
   );
   const setDoubleCards = (acc: Card[], curr: string): Card[] => {
-    console.log("accumulated", acc, "current", curr);
-
     const doubleCard = {
       id: acc.length + 1,
       color: curr,

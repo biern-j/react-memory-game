@@ -1,6 +1,6 @@
 import React from "react";
 
-import { GameStateButton } from "./gameStateManager/gameStateManagerStyle";
+import { GameStateButton } from "./gameStateManagerStyle";
 
 export type GameState = {
   start: boolean;
