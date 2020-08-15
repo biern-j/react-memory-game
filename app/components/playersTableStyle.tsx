@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Button } from "../style";
 
 export const PlayerTableContainer = styled.div`
   margin-bottom: 1rem;
@@ -46,19 +47,7 @@ export const RankingCel = styled.div`
   justify-content: center;
 `;
 
-export const Buttons = styled.button`
-  display: inline-block;
-  border: none;
-  border-radius: 50px;
-  margin-top: 2rem;
-  margin-right: 2rem;
-  padding: 1rem 3rem;
-  cursor: pointer;
-  text-transform: uppercase;
-  font-weight: bold;
-`;
-
-export const RestartButton = styled(Buttons)`
+export const RestartButton = styled(Button)`
   color: #fee4c4;
   background-color: #f57d7c;
   &:hover {
@@ -67,11 +56,7 @@ export const RestartButton = styled(Buttons)`
   }
 `;
 
-export const NewGameButton = styled(Buttons)`
+export const NewGameButton = styled(Button)`
   color: #fee4c4;
   background-color: #6cc2bd;
-  &:hover {
-    background-color: #7c79a2;
-    color: #f57d7c;
-  }
 `;

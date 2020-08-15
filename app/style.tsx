@@ -91,3 +91,19 @@ export const GameStart = styled.div`
     text-align: center;
   }
 `;
+
+export const Button = styled.button`
+  display: inline-block;
+  border: none;
+  border-radius: 50px;
+  margin-top: 2rem;
+  margin-right: 2rem;
+  padding: 1rem 3rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  &:hover {
+    background-color: #7c79a2;
+    color: #f57d7c;
+  }
+`;
