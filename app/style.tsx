@@ -62,9 +62,9 @@ export const GameContainer = styled.div<{ gameStart: boolean }>`
       ? "margin: 0 -10rem; padding: 1rem 10rem;"
       : "margin: 0 -10rem; padding: 7rem 70rem;"};
 
-  @media @media ${device.mobileM} {
-    margin: 0 -3rem;
-    padding: 1rem;
+  @media ${device.desktop} {
+    margin: 0 -10rem;
+    padding: 10rem 20rem;
   }
 
   @media ${device.tablet} {
@@ -72,9 +72,9 @@ export const GameContainer = styled.div<{ gameStart: boolean }>`
     padding: 7rem 15rem;
   }
 
-  @media ${device.desktop} {
-    margin: 0 -10rem;
-    padding: 10rem 20rem;
+  @media ${device.mobileS} {
+    margin: 0 -3rem;
+    padding: 1rem;
   }
 `;
 
