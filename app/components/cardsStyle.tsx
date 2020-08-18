@@ -85,6 +85,7 @@ const countCardPerRow = (totalCard: number) => {
 export const CardContainer = styled.div<{ totalCard: number }>`
   text-align: center;
   display: grid;
+  // width: 100%;
   ${({ totalCard }) => countCardPerRow(totalCard)}
   column-gap: 5px;
   row-gap: 5px;
@@ -98,6 +99,7 @@ export const CardContainer = styled.div<{ totalCard: number }>`
 export const CardButton = styled.button<CardButtonProps>`
   border: 2px solid #f57d7c;
   border-radius: 10px;
+  //grid-template-columns: repeat(auto-fill, minmax(1rem, auto));
   ${(props) => {
     const { clicked, found, color } = props.backgroundColorCard;
     return clicked || found
