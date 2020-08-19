@@ -1,14 +1,14 @@
-import styled from "styled-components";
-import { device } from "../RWD";
+import styled from 'styled-components'
+import { device } from '../RWD'
 
 export const LevelForm = styled.div`
   border-radius: 5px;
   width: 100%;
 
-  @media screen ${device.mobileS} {
+  @media ${device.mobileS} {
     width: 60%;
   }
-`;
+`
 
 export const LevelInput = styled.button<{ selectedDifficulty: boolean }>`
   display: inline-block;
@@ -23,8 +23,8 @@ export const LevelInput = styled.button<{ selectedDifficulty: boolean }>`
   transition: al1s;
   ${({ selectedDifficulty }) =>
     selectedDifficulty
-      ? "background-color: #7C79A2"
-      : "background-color: #F57D7C"};
+      ? 'background-color: #7C79A2'
+      : 'background-color: #F57D7C'};
   &:hover {
     background-color: #7c79a2;
     color: #f57d7c;
@@ -36,10 +36,10 @@ export const LevelInput = styled.button<{ selectedDifficulty: boolean }>`
     padding: 1rem 1.5rem;
     margin: 0.5rem;
   }
-`;
+`
 
 export const LevelBox = styled.div`
   display: inline-block;
   padding: 1rem 3rem;
   margin-top: 2rem;
-`;
+`

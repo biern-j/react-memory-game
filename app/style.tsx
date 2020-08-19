@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { createGlobalStyle } from "styled-components";
-import { device } from "./RWD";
+import styled from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
+import { device } from './RWD'
 
 export const GlobalStyle = createGlobalStyle`
 *,
@@ -54,29 +54,23 @@ h2,
 h3 {
   text-transform: uppercase; 
 }
-`;
+`
 
 export const GameContainer = styled.div<{ gameStart: boolean }>`
   ${({ gameStart }) =>
     gameStart
-      ? "margin: 0 -10rem; padding: 1rem 10rem;"
-      : "margin: 0 -10rem; padding: 7rem 70rem;"};
-
-  @media ${device.desktop} {
-    margin: 0 -10rem;
-    padding: 10rem 20rem;
-  }
+      ? 'margin: 0 -10rem; padding: 1rem 10rem;'
+      : 'margin: 0 -10rem; padding: 7rem 40rem;'};
 
   @media ${device.tablet} {
     margin: 0 -10rem;
     padding: 7rem 15rem;
   }
-
-  @media ${device.mobileS} {
+  @media ${device.mobileM} {
     margin: 0 -3rem;
     padding: 1rem;
   }
-`;
+`
 
 export const GameStart = styled.div`
   padding: 2rem;
@@ -90,7 +84,7 @@ export const GameStart = styled.div`
     text-transform: uppercase;
     text-align: center;
   }
-`;
+`
 
 export const Button = styled.button`
   display: inline-block;
@@ -106,4 +100,4 @@ export const Button = styled.button`
     background-color: #7c79a2;
     color: #f57d7c;
   }
-`;
+`
