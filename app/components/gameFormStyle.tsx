@@ -21,11 +21,11 @@ export const NewPlayerLabel = styled.label`
 `
 
 export const NewPlayerInput = styled.input`
-border-radius: 5px;
-padding: 2rem;
-border: medium none;
-width: 70%;
-display: inline-block;
+  border-radius: 5px;
+  padding: 2rem;
+  border: medium none;
+  width: 70%;
+  display: inline-block;
 
   @media ${device.tablet} {
     width: 100%;
@@ -34,7 +34,6 @@ display: inline-block;
   @media ${device.mobileM} {
     width: 100%;
   }
-}
 `
 export const NewPlayerInputSubmitButtonBox = styled.div`
   display: inline-block;
